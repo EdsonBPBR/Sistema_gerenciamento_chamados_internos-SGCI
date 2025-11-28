@@ -10,6 +10,8 @@ class SistemaChamado:
             "localizacao": chamado.localizacao,
             "descricao": chamado.descricao,
             "prioridade": chamado.prioridade,
+            "data": chamado.data,
+            "horario": chamado.horario,
             "status": chamado.status
         }
         

@@ -6,15 +6,15 @@ sistema = SistemaChamado()
 chamado1 = Chamado('001', 'Vanilda', 'Contabilidade', 'Suporte técnico','Sala 03', 'Conexão impressora HP', 'alta')
 chamado2 = Chamado('002', 'Michele', 'IPAM', 'Suporte técnico','Sala 11', 'Instalação de certificado digital', 'média')
 
-# cadastro chamado
+# cadastro chamado # única funcionalidade do ator, abrir chamado
 sistema.cadastrar_chamado(chamado1)
 sistema.cadastrar_chamado(chamado2)
 
-# listagem chamados
+# listagem chamados # admin
 for chamados in sistema.consultar_chamados():
     print(chamados[1])
 
-# alterar status
+# alterar status # admin
 if sistema.alterar_status('001', 'fechado'):
     print('ok')
     for chamados in sistema.consultar_chamados():
@@ -22,7 +22,7 @@ if sistema.alterar_status('001', 'fechado'):
 else:
     print('não encontrado')
     
-# excluir chamado:
+# excluir chamado: # admin
 if sistema.excluir_chamado('003'):
     print('ok')
     for chamados in sistema.consultar_chamados():
@@ -30,7 +30,7 @@ if sistema.excluir_chamado('003'):
 else:
     print('chamado não encontrado')
     
-# altera campo:
+# altera campo: # admin
 if sistema.editar_chamado('002', 'nome_solicitante', 'Fernando'):
     print('ok')
     for chamados in sistema.consultar_chamados():
