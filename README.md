@@ -20,7 +20,6 @@ A seguinte aplicação desenvolvida é um pequeno projeto para consolidar os con
 ### Próximas funcionalidades
 - Interface Gráfica
 - Implementação com Framework Django
-- Conexão MySQL
 - Integração com PowerBI
 
 ----
