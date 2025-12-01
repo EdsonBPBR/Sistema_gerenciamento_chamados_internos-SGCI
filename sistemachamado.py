@@ -1,6 +1,8 @@
+from models import extrair_dados
+
 class SistemaChamado:
     def __init__(self):
-        self.chamados = {} # conectar ao json futuramente
+        self.chamados = extrair_dados()
         
     def cadastrar_chamado(self, chamado):
         self.chamados[chamado.codigo] = {
