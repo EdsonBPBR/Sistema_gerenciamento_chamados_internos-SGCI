@@ -1,8 +1,9 @@
 from funcionalidades import menu, inserir_chamados, listar_chamados, alterar_status_chamado, alterar_chamado, remover_chamado
+from models import gerenciador_codigos
 import os
 
 def main():
-    i = 1  # melhorar futuramente o sistema de ID
+    i = gerenciador_codigos()  # melhorar futuramente o sistema de ID
     while True:
         os.system('cls')
         try:
@@ -10,8 +11,9 @@ def main():
             os.system('cls')
             match opc:
                 case 1:
-                    inserir_chamados(i)
                     i += 1
+                    inserir_chamados(i)
+                    
                     
                 case 2:
                     listar_chamados()
