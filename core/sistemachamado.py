@@ -1,4 +1,4 @@
-from models import extrair_dados, salvar_dados
+from models.models import extrair_dados, salvar_dados
 
 class SistemaChamado:
     def __init__(self):

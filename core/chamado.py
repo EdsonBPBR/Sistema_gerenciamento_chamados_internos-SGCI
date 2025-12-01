@@ -1,4 +1,4 @@
-from data_hora import data_numeros, horario
+from utils.data_hora import data_numeros, horario
 
 class Chamado:
     def __init__(self, codigo, nome_solicitante, setor, tipo_servico, localizacao, descricao, prioridade):

@@ -1,5 +1,5 @@
-from chamado import Chamado
-from sistemachamado import SistemaChamado
+from core.chamado import Chamado
+from core.sistemachamado import SistemaChamado
 sistema = SistemaChamado()
 
 def menu():
