@@ -1,5 +1,5 @@
-from funcionalidades import menu, inserir_chamados, listar_chamados, alterar_status_chamado, alterar_chamado, remover_chamado
-from models import gerenciador_codigos
+from utils.funcionalidades import menu, inserir_chamados, listar_chamados, alterar_status_chamado, alterar_chamado, remover_chamado
+from models.models import gerenciador_codigos
 import os
 
 def main():
@@ -11,10 +11,9 @@ def main():
             os.system('cls')
             match opc:
                 case 1:
-                    i += 1
                     inserir_chamados(i)
-                    
-                    
+                    i += 1
+                        
                 case 2:
                     listar_chamados()
                     

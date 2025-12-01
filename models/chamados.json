@@ -41,6 +41,28 @@
         "prioridade": "alta",
         "data": "2025-12-01",
         "horario": "16:00:10",
+        "status": "Em Andamento"
+    },
+    "0007": {
+        "nome_solicitante": "Luiza",
+        "setor": "Contabilidade",
+        "tipo_servico": "Manuten\u00e7\u00e3o",
+        "localizacao": "Manuten\u00e7\u00e3o impressora brother",
+        "descricao": "manuten\u00e7\u00e3o impressora brohert",
+        "prioridade": "alta",
+        "data": "2025-12-01",
+        "horario": "18:04:05",
+        "status": "Aberto"
+    },
+    "0008": {
+        "nome_solicitante": "Mariana Santana",
+        "setor": "Educa\u00e7\u00e3o",
+        "tipo_servico": "Manuten\u00e7\u00e3o",
+        "localizacao": "Sec. Educa\u00e7a\u00f5",
+        "descricao": "manuten\u00e7\u00e3o impressora EPSON L3250",
+        "prioridade": "baixa",
+        "data": "2025-12-01",
+        "horario": "18:05:36",
         "status": "Aberto"
     }
 }
