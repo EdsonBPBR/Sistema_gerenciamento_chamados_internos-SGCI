@@ -18,8 +18,7 @@ A seguinte aplicação desenvolvida é um pequeno projeto para consolidar os con
 - **Pandas**
 
 ### Próximas funcionalidades
-- Interface Gráfica
-- Implementação com Framework Django
+- Implementação com Framework Flask
 - Integração com PowerBI
 
 ----
