@@ -11,8 +11,8 @@ def main():
             os.system('cls')
             match opc:
                 case 1:
-                    inserir_chamados(i)
                     i += 1
+                    inserir_chamados(i)
                         
                 case 2:
                     listar_chamados()
