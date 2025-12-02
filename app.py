@@ -33,10 +33,10 @@ def main():
                 case _:
                     print('Opção Inválida!')
         except ValueError:
-            print('Dado de entrada inválido!')
+            print('\nDado de entrada inválido!')
             input('pressione ENTER para continuar')
         except Exception as erro:
-            print(f'Erro: {erro}')
+            print(f'\nErro: {erro}')
             input('pressione ENTER para continuar')    
 if __name__ == '__main__':
     main()
