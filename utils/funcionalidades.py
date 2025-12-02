@@ -1,5 +1,6 @@
 from core.chamado import Chamado
 from models.analises import registros_dataframe
+from utils.gerar_xlsx import gerar_planilha
 from core.sistemachamado import SistemaChamado
 sistema = SistemaChamado()
 
@@ -10,7 +11,8 @@ def menu():
     print('3 - Alterar STATUS Chamado')
     print('4 - Editar Chamado')
     print('5 - Excluir Chamado')
-    print('6 - Sair')
+    print('6 - Gerar planilha')
+    print('7 - Sair')
     opc = int(input(': '))
     return opc
 
@@ -91,4 +93,16 @@ def remover_chamado():
         print('Valor entrada inválido!')
     except Exception as erro:
         print(f'Alteração abordata, erro: {erro}')
+    input('\npressione ENTER para continuar')
+    
+def exportar_planilha():
+    """
+    Interface usuário e recebimento dos dados para gerar planilha
+    """
+    print(f'{'='*6}EXPORTAR EM PLANILHA{'='*6}')
+    nome_arquivo = str(input('Informe o nome do arquivo: '))
+    if len(nome_arquivo) < 2:
+        print('Nome inválido!')
+    else:
+        print(gerar_planilha(nome_arquivo))
     input('\npressione ENTER para continuar')
