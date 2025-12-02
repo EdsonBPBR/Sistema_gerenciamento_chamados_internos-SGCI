@@ -1,4 +1,4 @@
-from utils.funcionalidades import menu, inserir_chamados, listar_chamados, alterar_status_chamado, alterar_chamado, remover_chamado
+from utils.funcionalidades import menu, inserir_chamados, listar_chamados, alterar_status_chamado, alterar_chamado, remover_chamado, exportar_planilha
 from models.models import gerenciador_codigos
 import os
 
@@ -27,16 +27,19 @@ def main():
                     remover_chamado()
                         
                 case 6:
+                    exportar_planilha()
+                
+                case 7:
                     print('Saindo do programa...')
                     break
                 
                 case _:
                     print('Opção Inválida!')
         except ValueError:
-            print('Dado de entrada inválido!')
+            print('\nDado de entrada inválido!')
             input('pressione ENTER para continuar')
         except Exception as erro:
-            print(f'Erro: {erro}')
+            print(f'\nErro: {erro}')
             input('pressione ENTER para continuar')    
 if __name__ == '__main__':
     main()

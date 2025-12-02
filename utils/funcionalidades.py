@@ -1,4 +1,6 @@
 from core.chamado import Chamado
+from models.analises import registros_dataframe
+from utils.gerar_xlsx import gerar_planilha
 from core.sistemachamado import SistemaChamado
 sistema = SistemaChamado()
 
@@ -9,7 +11,8 @@ def menu():
     print('3 - Alterar STATUS Chamado')
     print('4 - Editar Chamado')
     print('5 - Excluir Chamado')
-    print('6 - Sair')
+    print('6 - Gerar planilha')
+    print('7 - Sair')
     opc = int(input(': '))
     return opc
 
@@ -31,11 +34,11 @@ def inserir_chamados(i):
     input('\npressione ENTER para continuar')
     
 def listar_chamados():
-    print(f'{'='*42}CHAMADOS CADASTRADOS{'='*42}') 
-    print(f'{'CODIGO':^5} {'STATUS':^15} {'NOME SOLICITANTE':^15} {'SETOR':^10} {'PRIORIDADE':^10} {'TIPO SERVICO':^15} {'LOCALIZAÇÃO':^15} {'DATA':^10}')
-    print(f'{'='*104}')
-    for chamados in sistema.consultar_chamados():
-        print(f'{chamados[0]}. {chamados[1]['status']:^15} {chamados[1]['nome_solicitante']:^15} {chamados[1]['setor']:^10} {chamados[1]['prioridade']:^10}  {chamados[1]['tipo_servico']:^10} {chamados[1]['localizacao']:^15} {chamados[1]['data']:^5}')
+    """
+    Lista chamados cadastrados, por meio da função registros_dataframe que utiliza o pandas para analisar e montar o dataframe
+    """
+    print(f'{'='*48}CHAMADOS CADASTRADOS{'='*48}')
+    print(registros_dataframe())
     input('\npressione ENTER para continuar')
     
 def alterar_status_chamado():
@@ -90,4 +93,16 @@ def remover_chamado():
         print('Valor entrada inválido!')
     except Exception as erro:
         print(f'Alteração abordata, erro: {erro}')
+    input('\npressione ENTER para continuar')
+    
+def exportar_planilha():
+    """
+    Interface usuário e recebimento dos dados para gerar planilha
+    """
+    print(f'{'='*6}EXPORTAR EM PLANILHA{'='*6}')
+    nome_arquivo = str(input('Informe o nome do arquivo: '))
+    if len(nome_arquivo) < 2:
+        print('Nome inválido!')
+    else:
+        print(gerar_planilha(nome_arquivo))
     input('\npressione ENTER para continuar')
