@@ -15,11 +15,19 @@ A seguinte aplicação desenvolvida é um pequeno projeto para consolidar os con
 ## Tecnologias Utilizadas
 - **Python 3.11**
 - **POO**
+- **Flask**
 - **Pandas**
 
 ### Próximas funcionalidades
 - Implementação com Framework Flask
 - Integração com PowerBI
+
+### Instalação
+```
+pip install -r .\requirements.txt
+```
+
+Crie um arquivo **.env** na raiz do projeto, e defina uma chave para a variável: ```SECRET_KEY_FLASK = sua_chave_aqui```
 
 ----
 EDSON BARROS PONCIÚNCULA

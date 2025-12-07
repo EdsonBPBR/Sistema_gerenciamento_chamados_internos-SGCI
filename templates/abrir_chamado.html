@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGCI</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/sub_logo_concordnet2.png') }}"
+        type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_contato.css') }}">
+
+    <!--links do bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
+    <!--scripts-->
+    <script src="../static/js/animacao_navbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <!--nav bootstrap-->
+        <nav class="navbar fixed-top bg-body-tertiary navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid" style="width: 80%; margin: auto;">
+                <a class="navbar-brand" href="../index.html">
+                    <img id="logo-navbar" src="../static/img/logo-menor-concordnet-azul-escuro-reduzida1.png" alt="Logo"
+                        height="3.5rem" class="d-inline-block align-text-top transition-logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="./inicio.html">Inicio</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Serviços
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Desenvolvimento de Softwares</a></li>
+                                <li><a class="dropdown-item" href="#">Manutenção de Computadores</a></li>
+                                <li><a class="dropdown-item" href="#">Suporte Técnico</a></li>
+                                <li><a class="dropdown-item" href="#">Rede, Internet e Comunicações</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">ConcordNet Telecom</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Acesso
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">FeedBack</a></li>
+                                <li><a class="dropdown-item" href="#">Downloads</a></li>
+                                <li><a class="dropdown-item" href="#">Pagamentos</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Configurações Ideais</a></li>
+                                <li><a class="dropdown-item" href="#">Montagem Personalizada</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div>
+                        <a href="#"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <img src="../static/img/brasil.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="position-relative overflow-hidden" style="height: 300px; margin-top: 80px;">
+            <img src="../static/img/concordnet.webp" alt="Entre em contato"
+                class="w-100 h-100 position-absolute top-0 start-0 object-fit-cover"
+                style="opacity: 0.7; transition: opacity 1s;">
+            <div class="position-absolute top-0 start-0 w-100 h-100"
+                style="background: linear-gradient(90deg, rgba(4,67,111,0.8) 60%, rgba(13,13,13,0.5) 100%);"></div>
+            <div class="container h-100 d-flex flex-column justify-content-center align-items-start position-relative"
+                style="z-index:2; max-width: 80%;">
+                <h1 class="text-white fw-bold mb-2" style="font-size: 2.5rem;">SGCI</h1>
+                <p class="text-white mb-4" style="max-width: 600px; font-size: 1.2rem;">
+                    Abra seu chamando utilizando o Sistema de Gerenciamento de Chamados Internos
+                </p>
+            </div>
+        </section>
+
+        <!-- Formulário de Contato e Informações -->
+        <section class="py-5" id="formulario">
+            <div class="container" style="max-width: 80%;">
+
+                <div> <!-- sistema de mensagens -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert" style="display: flex; justify-content: space-between;">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    {% block conteudo_main %}
+                    {% endblock %}
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-5 mb-lg-0">
+                        <h2 class="fw-bold mb-4" style="color: #04436F;">Abra seu chamado</h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome Completo</label>
+                                <input name="nome_solicitante" type="text" class="form-control" id="nome" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="setor" class="form-label">Setor</label>
+                                <input name="setor" type="text" class="form-control" id="setor" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="localizacao" class="form-label">Localização</label>
+                                <input name="localizacao" type="text" class="form-control" id="localizacao" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="prioridade" class="form-label">Prioridade</label>
+                                <select name="prioridade" class="form-select" id="prioridade" required>
+                                    <option value="#" selected disabled>Selecione uma prioridade</option>
+                                    <option value="baixa">Baixa</option>
+                                    <option value="media">Média</option>
+                                    <option value="alta">Alta</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipo_servico" class="form-label">Tipo servico</label>
+                                <select name="tipo_servico" class="form-select" id="tipo_servico" required>
+                                    <option value="#" selected disabled>Selecione um serviço</option>
+                                    <option value="suporte">Suporte Técnico</option>
+                                    <option value="manutencao">Manutenção de Ativos</option>
+                                    <option value="redes_e_infraestrutura">Redes e Infraestrutura</option>
+                                    <option value="desenvolvimento">Desenvolvimento</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descricao" class="form-label">Descrição do problema</label>
+                                <textarea name="descricao" class="form-control" id="mensagem" rows="5"
+                                    required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Abrir chamado</button>
+                                <p>Ao abrir esse chamado, seus dados serão tratados conforme a lei nº 13.067/2018 - Lei
+                                    Geral de Proteção de Dados (LGPD)</p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <h2 class="fw-bold mb-4" style="color: #04436F;">Nossos Canais</h2>
+                        <p>Dúvidas? Entre em contato conosco!</p>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="bi bi-telephone-fill me-3" style="font-size: 1.5rem; color: #04436F;"></i>
+                                    <div>
+                                        <h5 class="fw-bold mb-1">Telefone</h5>
+                                        <p class="mb-0">(82) 99382-1363 (WhatsApp)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="bi bi-envelope-fill me-3" style="font-size: 1.5rem; color: #04436F;"></i>
+                                    <div>
+                                        <h5 class="fw-bold mb-1">E-mail</h5>
+                                        <p class="mb-0">contato@concordnet.com.br</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-body-tertiary text-dark pt-5 pb-3 mt-5 border-top">
+            <div class="container" style="max-width: 80%;">
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0 d-flex flex-column align-items-start">
+                        <a href="../index.html">
+                            <img src="../static/img/logo-menor-concordnet-azul-escuro-reduzida1.png"
+                                alt="ConcordNet Logo" height="50">
+                        </a>
+                        <p class="mt-3 text-secondary" style="max-width: 250px;">
+                            Soluções em tecnologia, desenvolvimento de softwares, manutenção e suporte técnico para o
+                            seu
+                            negócio.
+                        </p>
+                    </div>
+                    <div class="col-md-2 mb-4 mb-md-0">
+                        <h6 class="fw-bold mb-3">Institucional</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="quem_somos.html" class="text-decoration-none text-dark">Quem Somos</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Contato</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Política de Privacidade</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-4 mb-md-0">
+                        <h6 class="fw-bold mb-3">Serviços</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none text-dark">Desenvolvimento de Softwares</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Manutenção de Computadores</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Suporte Técnico</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Rede e Internet</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h6 class="fw-bold mb-3">Acesso Rápido</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none text-dark">FeedBack</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Downloads</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Pagamentos</a></li>
+                            <li><a href="#" class="text-decoration-none text-dark">Configurações Ideais</a></li>
+                        </ul>
+                        <div class="mt-3">
+                            <a href="#" class="me-2 text-dark"><i class="bi bi-whatsapp fs-5"></i></a>
+                            <a href="#" class="me-2 text-dark"><i class="bi bi-facebook fs-5"></i></a>
+                            <a href="https://www.instagram.com/seu_perfil" target="_blank" class="me-2 text-dark"><i
+                                    class="bi bi-instagram fs-5"></i></a>
+                            <img src="../static/img/brasil.png" alt="Brasil" height="20" class="ms-2">
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="text-center text-secondary small">
+                    &copy; 2024 ConcordNet. Todos os direitos reservados.
+                </div>
+            </div>
+        </footer>
+</body>
+
+</html>

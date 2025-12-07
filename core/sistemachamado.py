@@ -5,6 +5,12 @@ class SistemaChamado:
         self.chamados = extrair_dados()
         
     def cadastrar_chamado(self, chamado):
+        """
+        Monta e inseri o registro no dicionário e salva ele permanentemente, por meio da função salvar_dados()
+        
+        :param chamado: recebe como parâmetro a classe Chamado
+        """
+        
         self.chamados[chamado.codigo] = {
             "nome_solicitante": chamado.nome_solicitante,
             "setor": chamado.setor,

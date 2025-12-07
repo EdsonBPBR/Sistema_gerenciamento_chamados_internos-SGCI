@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --cor_primaria: #04436F;
+    --font-size-base: 1.2rem;
+    --cor_de_fundo: #F2F2F2
+}
+
+header > nav {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* estilização do header*/
+header>nav>div>a>img {
+    width: auto;
+    height: 3.5rem;
+}
+
+header>nav>div>div>div>a {
+    margin-left: 3px;
+}
+
+header>nav>div>div>div>img {
+    width: auto;
+    height: 30px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+header>nav>div>div>div>a>i {
+    font-size: var(--font-size-base);
+    color: var(--cor_primaria);
+    transition: color 0.3s, transform 0.3s;
+}
+
+header>nav>div>div>div>a>i:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(1.2) rotate(-10deg);
+}
+
+/*estilização do main e suas respectivas sessões*/
+main {
+    background-color: #F2F2F2;
+}
+
+/* Hero Section */
+.hero-section {
+    margin-top: 80px;
+}
+
+/* Formulário */
+.form-control, .form-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #04436F;
+    box-shadow: 0 0 0 0.25rem rgba(4, 67, 111, 0.25);
+}
+
+.btn-primary {
+    background-color: #04436F;
+    border-color: #04436F;
+    padding: 10px 25px;
+}
+
+.btn-primary:hover {
+    background-color: #033056;
+    border-color: #033056;
+}
+
+/* Cards de Informações */
+.info-card {
+    transition: transform 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Mapa */
+#map {
+    border-top: 3px solid #04436F;
+    border-bottom: 3px solid #04436F;
+}
+
+/* Accordion FAQ */
+.accordion-button {
+    font-weight: 500;
+    padding: 15px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #04436F;
+    background-color: rgba(4, 67, 111, 0.05);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(4, 67, 111, 0.25);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 250px !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem !important;
+    }
+    
+    .hero-content p {
+        font-size: 1rem !important;
+    }
+    
+    #map {
+        height: 300px !important;
+    }
+}
+
+/* Animação suave para seções */
+section {
+    scroll-margin-top: 100px;
+}
