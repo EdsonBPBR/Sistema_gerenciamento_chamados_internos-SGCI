@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_inicio.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/sub_logo_concordnet2.png') }}" type="image/x-icon">
+    <title>Inicio</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar bg-body-tertiary shadow-sm p-3 mb-5 bg-body-tertiary">
+            <div class="container-fluid" id="navbar">
+                <a class="navbar-brand" href="#">
+                    <img src="https://concord.net.br/static/img/logo-menor-concordnet-azul-escuro-reduzida1.png"
+                        alt="Logo" width="auto" height="35" class="d-inline-block align-text-top">
+                    SISTEMA GERENCIAMENTO CHAMADOS INTERNOS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{NOME USUÁRIO LOGADO}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Despesas
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Cadastrar
+                                            Despesa</a></li>
+                                    <li><a class="dropdown-item" href="#">Cadastrar Categoria</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Listar Despesas</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#">Suporte</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <button data-url="{{ url_for('login_admin') }}" onclick="window.location.href=this.getAttribute('data-url')" class="btn btn-danger">Sair</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-4">
+                        <div>
+                            <canvas id="grafico_pizza"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- tabela últimos registros carregada -->
+                    <div class="col-8">
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                                <caption><span class="badge text-bg-primary">Chamados Abertos</span>
+                                </caption>
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>@social</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>@social</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>@social</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>@social</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- sistema de paginação -->
+                            <div class="paginacao">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <!-- links e sistema de paginação da tabela -->
+                            <section style="display: flex; justify-content: space-evenly;">
+                                <div>
+                                    <button class="btn btn-success">Consultar Despesas</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-secondary">Dashboard</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-info">Exportar</button>
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Scripts de animações e interação do bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{{ url_for('static', filename='js/grafico_pizza_inicio.js') }}"></script>
+</body>
+
+</html>

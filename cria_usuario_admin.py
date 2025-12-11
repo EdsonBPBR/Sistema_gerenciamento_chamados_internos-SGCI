@@ -1,5 +1,5 @@
 """
-Algoritmo para criação dos usuários administradores do sistema
+Algoritmo para criação dos usuários administradores do sistema, futuramente possibilidar que os usuários admim criem outros
 """
 from werkzeug.security import generate_password_hash
 from models.models import extrair_dados, salvar_dados
