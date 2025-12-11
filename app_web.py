@@ -22,4 +22,13 @@ def abrir_chamado():
     
     return render_template('abrir_chamado.html')
 
+@app.route('/sgci/login_admin', methods = ['GET', 'POST'])
+def login_admin():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        print(email, senha)
+    
+    return render_template('login_admin.html')
+
 app.run(debug=True)
