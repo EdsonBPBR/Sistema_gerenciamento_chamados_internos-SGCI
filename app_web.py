@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from utils.funcionalidades import inserir_chamados
+from models.models import extrair_dados
 from utils.login import verifica_login
 from dotenv import load_dotenv
 import os
@@ -21,7 +22,7 @@ def abrir_chamado():
         prioridade = request.form.get('prioridade')
         tipo_servico = request.form.get('tipo_servico')
         descricao = request.form.get('descricao')
-        inserir_chamados(nome_solicitante, setor, localizacao, prioridade, tipo_servico, descricao)
+        inserir_chamados(nome_solicitante, setor,tipo_servico, localizacao, prioridade, descricao)
         return redirect(url_for('abrir_chamado'))
     return render_template('abrir_chamado.html')
 
@@ -49,7 +50,9 @@ def inicio():
         flash('Conexão expirada! Faça o login!', 'danger')
         return redirect(url_for('login_admin'))
     
-    return render_template('inicio.html')
+    nome_usuario = session['usuario']['nome']
+    dados = extrair_dados('registro_chamados')
+    return render_template('inicio.html', nome = nome_usuario, chamados_abertos = dados)
 
 if __name__ == '__main__':
     app.run(debug=True)

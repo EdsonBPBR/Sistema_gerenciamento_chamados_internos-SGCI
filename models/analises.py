@@ -2,9 +2,13 @@ from models.models import extrair_dados
 import pandas as pd
 
 def registros_dataframe():
-    if len(extrair_dados()) > 0:
+    """
+    Montagem dataframe, exportação excel e organização dos resultados via CLI
+    """
+    
+    if len(extrair_dados('registro_chamados')) > 0:
         dados = {
-            'CÓDIGO': list(extrair_dados().keys()),
+            'CÓDIGO': list(extrair_dados('registro_chamados').keys()),
             'SOLICITANTE': [],
             'SETOR': [],
             'STATUS': [],
@@ -14,7 +18,7 @@ def registros_dataframe():
             'DATA': [],
             'HORARIO': []
         }
-        for registro in extrair_dados().values():
+        for registro in extrair_dados('registro_chamados').values():
             dados['SOLICITANTE'].append(registro['nome_solicitante'])
             dados['SETOR'].append(registro['setor'])
             dados['STATUS'].append(registro['status'])
