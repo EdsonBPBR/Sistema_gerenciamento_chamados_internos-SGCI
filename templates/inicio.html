@@ -1,0 +1,83 @@
+{% extends '_layouts/base.html' %}
+
+{% block head %}
+<title>Inicio</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_inicio.css') }}">
+{% endblock %}
+
+{% block conteudo_main %}
+<main class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <div>
+                        <canvas id="grafico_pizza"></canvas>
+                    </div>
+                </div>
+
+                <!-- tabela últimos registros carregada -->
+                <div class="col-8">
+                    <div class="table-responsive">
+                        <table
+                            class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
+                            <caption><span class="badge text-bg-primary">Últimos Chamados Abertos</span>
+                            </caption>
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Solicitante</th>
+                                    <th scope="col">Serviço</th>
+                                    <th scope="col">Setor</th>
+                                    <th scope="col">Prioridade</th>
+                                    <th scope="col">Data e Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-abertos" class="table-group-divider">
+                                <!--id = "tabela-abertos", possibilita a atualização automática-->
+                                {% for registro in chamados_abertos.values() %}
+                                {% if registro['status'] == 'Aberto' %}
+                                <tr>
+                                    <th scope="row">{{ registro['nome_solicitante'] }}</th>
+                                    <td>{{ registro['tipo_servico'].title() }}</td>
+                                    <td>{{ registro['setor'].title() }}</td>
+                                    <td>{{ registro['prioridade'].title() }}</td>
+                                    <td>{{ registro['data'] }} {{ registro['horario'] }}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- sistema de paginação -->
+                        <div class="paginacao">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <canvas id="goodCanvas1" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/grafico_pizza_inicio.js') }}"></script>
+<script src="{{ url_for('static', filename='js/refresh_tabela_inicio.js') }}"></script>
+{% endblock %}

@@ -2,13 +2,14 @@ from utils.funcionalidades import menu, inserir_chamados, listar_chamados, alter
 from models.models import gerenciador_codigos
 import os
 
+# futuramente esse arquivo deverá ser obsoleto, quanto todas as funcionalidades estiverem em html com flask
 def main():
     i = gerenciador_codigos()  # melhorar futuramente o sistema de ID
     while True:
         os.system('cls')
         try:
             opc = menu()
-            os.system('cls')
+            +os.system('cls')
             match opc:
                 case 1:
                     i += 1

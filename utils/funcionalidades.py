@@ -1,7 +1,9 @@
 from core.chamado import Chamado
 from models.analises import registros_dataframe
 from utils.gerar_xlsx import gerar_planilha
+from flask import flash
 from core.sistemachamado import SistemaChamado
+import secrets
 sistema = SistemaChamado()
 
 def menu():
@@ -16,22 +18,17 @@ def menu():
     opc = int(input(': '))
     return opc
 
-def inserir_chamados(i):
-    print(f'{'='*6}CADASTRAR CHAMADO{'='*6}')
+def inserir_chamados(nome_solicitante, setor, tipo_servico, localizacao, descricao, prioridade):
+    """
+    Gera um id aleatório de 16 bits para cada chamado cadastrado, bem com inserir ele no banco de dados permanentemente
+    """
     try:
-        nome_solicitante = str(input('Nome: ')).strip()
-        setor = str(input('Setor: ')).strip()
-        tipo_servico = str(input('Serviço: ')).strip()
-        localizacao = str(input('Localização: ')).strip()
-        descricao = str(input('Descrição: ')).strip()
-        prioridade = str(input('Prioridade: ')).strip()
-        sistema.cadastrar_chamado(Chamado(f'{i:04d}', nome_solicitante, setor, tipo_servico, localizacao, descricao, prioridade))
-        
-    except ValueError:
-        print('Valor entrada inválido!')
+        id = secrets.token_hex(8)
+        sistema.cadastrar_chamado(Chamado(id, nome_solicitante, setor, tipo_servico, localizacao, descricao, prioridade))
+        flash('Chamado aberto com sucesso! Aguarde, nossa equipe está a caminho! 🛻', 'success')
+
     except Exception as erro:
-        print(f'Cadastro abordato, erro: {erro}')
-    input('\npressione ENTER para continuar')
+        flash(f'Não foi possível cadastrar o chamado: {erro}', 'danger')
     
 def listar_chamados():
     """

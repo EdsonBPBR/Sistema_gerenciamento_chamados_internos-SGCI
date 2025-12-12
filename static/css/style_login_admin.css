@@ -1,0 +1,54 @@
+:root {
+    --cor_primaria: #04436F;
+    --font-size-base: 1.2rem;
+    --cor_de_fundo: #F2F2F2
+}
+
+header > nav {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* estilização do header*/
+header>nav>div>a>img {
+    width: auto;
+    height: 3.5rem;
+}
+
+header>nav>div>div>div>a {
+    margin-left: 3px;
+}
+
+header>nav>div>div>div>img {
+    width: auto;
+    height: 30px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+main {
+    padding-top: 7rem;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+article {
+    width: 100vh;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    h2 {
+        text-align: center;
+    }
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.botao {
+    display: flex;
+    justify-content: center;
+}

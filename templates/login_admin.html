@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login SGCI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/style_login_admin.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'img/sub_logo_concordnet2.png') }}" type="image/x-icon">
+    <!--links do bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <!--scripts-->
+    <script src="../static/js/animacao_navbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <!--nav bootstrap-->
+        <nav class="navbar fixed-top bg-body-tertiary navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid" style="width: 80%; margin: auto;">
+                <a class="navbar-brand" href="#">
+                    <img id="logo-navbar" src="{{ url_for('static', filename='img/logo-menor-concordnet-azul-escuro-reduzida1.png') }}" alt="Logo"
+                        height="3.5rem" class="d-inline-block align-text-top transition-logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ url_for('abrir_chamado') }}">Abrir chamado</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#">Ajuda</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <img src="{{ url_for('static',filename='img/brasil.png') }}" alt="bandeira do Brasil">
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <article>
+            <h2>SGCI Admin</h2>
+            <div> <!-- sistema de mensagens -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert" style="display: flex; justify-content: space-between;">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    {% block conteudo_main %}
+                    {% endblock %}
+                </div>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input name="email" class="form-control" type="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Senha</label>
+                    <input name="senha" class="form-control" type="password" required>
+                </div>
+                <div class="botao">
+                    <button class="btn btn-primary" type="submit">Entrar</button>
+                </div>
+                <div class="links">
+                    <a href="#">Solicitar acesso</a>
+                    <a href="#">Recuperar senha</a>
+                </div>
+            </form>
+        </article>
+    </main>
+</body>
+
+</html>
