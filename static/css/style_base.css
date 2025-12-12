@@ -1,0 +1,9 @@
+#navbar {
+    margin: auto;
+    width: 95%;
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+}

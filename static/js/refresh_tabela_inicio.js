@@ -17,5 +17,5 @@ function atualizarChamados() {
         });
 }
 
-atualizarChamados();               // executa ao carregar a página
-setInterval(atualizarChamados, 10000); // executa a cada 10s
+atualizarChamados();              
+setInterval(atualizarChamados, 20000); // executa a cada 10s

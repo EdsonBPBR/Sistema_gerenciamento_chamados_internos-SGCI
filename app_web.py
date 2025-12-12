@@ -54,18 +54,30 @@ def inicio():
     dados = extrair_dados('registro_chamados')
     return render_template('inicio.html', nome = nome_usuario, chamados_abertos = dados)
 
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('login_admin'))
+
 # APIs desenvolvidas 
 @app.route('/sgci/admin/api/chamados_abertos')
 def api_chamados_abertos():
     if not('usuario' in session):
         return {'erro': 'Não autorizado'}, 401
     dados = extrair_dados('registro_chamados')
-    chamados = [
-        registro for registro in dados.values()
-        if registro['status'] == 'Aberto'
-    ]
+    chamados = []
     
-    return {'chamados': chamados}
+    for registro in dados.values():
+        if registro['status'] == 'Aberto':
+            chamados.append(registro)
+    
+    ordem_prioridades = {
+        'baixa': 1,
+        'media': 2,
+        'alta': 3,
+    }
+    
+    return {'chamados': sorted(chamados, key=lambda x: ordem_prioridades[x['prioridade']], reverse=True)}
     
     
 if __name__ == '__main__':
