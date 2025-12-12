@@ -68,8 +68,8 @@
 
                         <div>
                             <button data-url="{{ url_for('login_admin') }}"
-                                onclick="window.location.href=this.getAttribute('data-url')"
-                                class="btn btn-danger"><i class="bi bi-escape"></i> Sair</button>
+                                onclick="window.location.href=this.getAttribute('data-url')" class="btn btn-danger"><i
+                                    class="bi bi-escape"></i> Sair</button>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     <div class="col-8">
                         <div class="table-responsive">
                             <table
-                                class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                                class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
                                 <caption><span class="badge text-bg-primary">Últimos Chamados Abertos</span>
                                 </caption>
                                 <thead class="table-light">
@@ -100,18 +100,19 @@
                                         <th scope="col">Serviço</th>
                                         <th scope="col">Setor</th>
                                         <th scope="col">Prioridade</th>
-                                        <th scope="col">Horario</th>
+                                        <th scope="col">Data e Hora</th>
                                     </tr>
                                 </thead>
-                                <tbody class="table-group-divider">
-                                    {% for registro in chamados_abertos.values() %}]
+                                <tbody id="tabela-abertos" class="table-group-divider">
+                                    {% for registro in chamados_abertos.values() %}
                                         {% if registro['status'] == 'Aberto' %}
-                                            <tr>
-                                                <th scope="row">{{ registro['nome_solicitante'] }}</th>
-                                                <td>{{ registro['tipo_servico'] }}</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
+                                        <tr>
+                                            <th scope="row">{{ registro['nome_solicitante'] }}</th>
+                                            <td>{{ registro['tipo_servico'].title() }}</td>
+                                            <td>{{ registro['setor'].title() }}</td>
+                                            <td>{{ registro['prioridade'].title() }}</td>
+                                            <td>{{ registro['data'] }} {{ registro['horario'] }}</td>
+                                        </tr>
                                         {% endif %}
                                     {% endfor %}
                                 </tbody>
@@ -140,13 +141,7 @@
                             <!-- links e sistema de paginação da tabela -->
                             <section style="display: flex; justify-content: space-evenly;">
                                 <div>
-                                    <button class="btn btn-success">Consultar Despesas</button>
-                                </div>
-                                <div>
-                                    <button class="btn btn-secondary">Dashboard</button>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-info">Exportar</button>
+                                    <button class="btn btn-success"><i class="bi bi-file-earmark-spreadsheet"></i></button>
                                 </div>
                             </section>
 
@@ -164,8 +159,8 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="{{ url_for('static', filename='js/grafico_pizza_inicio.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/refresh_tabela_inicio.js') }}"></script>
 </body>
 
 </html>

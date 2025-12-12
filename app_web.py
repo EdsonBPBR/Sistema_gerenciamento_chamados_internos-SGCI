@@ -22,7 +22,7 @@ def abrir_chamado():
         prioridade = request.form.get('prioridade')
         tipo_servico = request.form.get('tipo_servico')
         descricao = request.form.get('descricao')
-        inserir_chamados(nome_solicitante, setor,tipo_servico, localizacao, prioridade, descricao)
+        inserir_chamados(nome_solicitante, setor,tipo_servico, localizacao, descricao, prioridade)
         return redirect(url_for('abrir_chamado'))
     return render_template('abrir_chamado.html')
 
@@ -54,5 +54,19 @@ def inicio():
     dados = extrair_dados('registro_chamados')
     return render_template('inicio.html', nome = nome_usuario, chamados_abertos = dados)
 
+# APIs desenvolvidas 
+@app.route('/sgci/admin/api/chamados_abertos')
+def api_chamados_abertos():
+    if not('usuario' in session):
+        return {'erro': 'Não autorizado'}, 401
+    dados = extrair_dados('registro_chamados')
+    chamados = [
+        registro for registro in dados.values()
+        if registro['status'] == 'Aberto'
+    ]
+    
+    return {'chamados': chamados}
+    
+    
 if __name__ == '__main__':
     app.run(debug=True)
