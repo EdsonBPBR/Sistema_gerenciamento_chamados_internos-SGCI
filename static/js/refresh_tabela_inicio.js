@@ -12,9 +12,7 @@ function atualizarChamados() {
                 } else if (prioridade === 'media') {
                     badgeClass = 'warning';
                 } else if (prioridade === 'baixa') {
-                    badgeClass = 'success';
-                } else if (prioridade === 'urgente') {
-                    badgeClass = 'danger';
+                    badgeClass = 'secondary';
                 }
                 
                 const prioridadeTexto = registro['prioridade'].charAt(0).toUpperCase() + 
