@@ -9,7 +9,7 @@ def main():
         os.system('cls')
         try:
             opc = menu()
-            +os.system('cls')
+            os.system('cls')
             match opc:
                 case 1:
                     i += 1

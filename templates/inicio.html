@@ -21,7 +21,11 @@
                     <div class="table-responsive">
                         <table
                             class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
-                            <caption><span class="badge text-bg-primary">Últimos Chamados Abertos</span>
+                            <caption>
+                                <div>
+                                    <span class="badge text-bg-primary">Últimos Chamados Abertos</span>
+                                    <a href="{{ url_for('gerenciar_chamados') }}">Chamados</a>
+                                </div>
                             </caption>
                             <thead class="table-light">
                                 <tr>
@@ -47,6 +51,7 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+
                         <!-- sistema de paginação -->
                         <div class="paginacao">
                             <nav aria-label="Page navigation example">

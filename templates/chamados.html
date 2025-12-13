@@ -1,0 +1,70 @@
+{% extends '_layouts/base.html' %}
+
+{% block head %}
+<title>Chamados</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_chamados.css') }}">
+{% endblock %}
+
+{% block conteudo_main %}
+<main>
+    <div class="button-border">
+        <div>
+            <button class="btn btn-sm btn-primary"><i class="bi bi-filter"></i> Filtro</button>
+            <button class="btn btn-sm btn-success"><i class="bi bi-filetype-xlsx"></i> Excel</button>
+        </div>
+        <form action="#">
+            <button class="btn btn-sm btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+            <input type="text" class="form-control">
+        </form>
+    </div>
+
+    <table class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
+        <thead class="table-light">
+            <th>Nome Solicitante</th>
+            <th>Setor</th>
+            <th>Serviço</th>
+            <th>Prioridade</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Status</th>
+            <th>Ação</th>
+        </thead>
+        <tbody>
+            {% for chamado in chamados %}
+            <tr>
+                <td>{{ chamado['nome_solicitante'] }}</td>
+                <td>{{ chamado['setor'] }}</td>
+                <td>{{ chamado['tipo_servico'].title() }}</td>
+                <td>{{ chamado['prioridade'].title() }}</td>
+                <td>{{ chamado['data'] }}</td>
+                <td>{{ chamado['horario'] }}</td>
+                <td><span
+                        class="badge rounded-pill text-bg-{% if chamado['status']=='Aberto' %}warning{% elif chamado['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary{% else %}success{% endif %}">{{
+                        chamado['status'].title() }}</span></td>
+                <td><button class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- sistema de paginação -->
+    <div class="paginacao">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+{% endblock %}

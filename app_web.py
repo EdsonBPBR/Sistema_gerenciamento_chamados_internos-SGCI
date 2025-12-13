@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from utils.funcionalidades import inserir_chamados
 from models.models import extrair_dados
 from utils.login import verifica_login
@@ -22,7 +22,12 @@ def abrir_chamado():
         prioridade = request.form.get('prioridade')
         tipo_servico = request.form.get('tipo_servico')
         descricao = request.form.get('descricao')
-        inserir_chamados(nome_solicitante, setor,tipo_servico, localizacao, descricao, prioridade)
+        inserir_chamados(nome_solicitante,
+                         setor,
+                         tipo_servico,
+                         localizacao,
+                         descricao,
+                         prioridade)
         return redirect(url_for('abrir_chamado'))
     return render_template('abrir_chamado.html')
 
@@ -50,23 +55,48 @@ def inicio():
         flash('Conexão expirada! Faça o login!', 'danger')
         return redirect(url_for('login_admin'))
     
-    nome_usuario = session['usuario']['nome']
     dados = extrair_dados('registro_chamados')
-    return render_template('inicio.html', nome = nome_usuario, chamados_abertos = dados)
+    return render_template('inicio.html',
+                           chamados_abertos = dados)
 
-@app.route('/logout')
+@app.context_processor
+def usuario_logado():
+    usuario = session.get('usuario')
+    if usuario:
+        return {'nome': usuario['nome']}
+    return {'nome': None}
+
+@app.route('/logout', methods=['GET'])
 def logout():
     session.pop('usuario', None)
     return redirect(url_for('login_admin'))
 
+@app.route('/sgci/admin/dashboard', methods=['GET'])
+def dashboard():
+    if not('usuario' in session):
+        abort(401)
+    return render_template('dashboard.html')
+
+@app.route('/sgci/admin/chamados', methods=['GET'])
+def gerenciar_chamados():
+    if not('usuario' in session):
+        abort(401)
+    response, status = api_chamados()
+    if status != 200:
+        abort(status)
+    return render_template('chamados.html',
+                           chamados=response['chamados'])
+
+@app.route('/sgpl/admin/chamado/<int:id>', methods = [''])
+
 # APIs desenvolvidas 
-@app.route('/sgci/admin/api/chamados_abertos')
+@app.route('/sgci/admin/api/chamados_abertos', methods = ['GET'])
 def api_chamados_abertos():
     if not('usuario' in session):
         return {'erro': 'Não autorizado'}, 401
+    
     dados = extrair_dados('registro_chamados')
     chamados = []
-    
     for registro in dados.values():
         if registro['status'] == 'Aberto':
             chamados.append(registro)
@@ -76,9 +106,33 @@ def api_chamados_abertos():
         'media': 2,
         'alta': 3,
     }
+    return {'chamados': sorted(chamados,
+                               key=lambda x: ordem_prioridades[x['prioridade']],
+                               reverse=True)}
     
-    return {'chamados': sorted(chamados, key=lambda x: ordem_prioridades[x['prioridade']], reverse=True)}
+@app.route('/sgci/admin/api/chamados', methods = ['GET'])
+def api_chamados():
+    if not('usuario' in session):
+        return {'erro': 'Não autorizado'}, 401
     
+    dados = extrair_dados('registro_chamados')
+    ordem_status_chamados = {
+        "Fechado": 1,
+        "Em Andamento": 2,
+        "Aberto": 3
+    }
+    
+    ordem_prioridades = {
+        'baixa': 1,
+        'media': 2,
+        'alta': 3,
+    }
+    chamados = list(dados.values())
+    chamados = sorted(chamados,
+                      key=lambda c: (ordem_status_chamados[c['status']], ordem_prioridades[c['prioridade']]),
+                      reverse=True
+                      )
+    return {"chamados": chamados}, 200
     
 if __name__ == '__main__':
     app.run(debug=True)
