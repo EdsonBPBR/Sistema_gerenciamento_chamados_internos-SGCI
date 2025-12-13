@@ -7,14 +7,23 @@ from apis import api_chamados, api_chamados_abertos
 
 @app.route('/', methods = ['GET'])
 def home():
+    """
+    Redirecionar da raiz para abrir_chamado
+    """
     return redirect(url_for('abrir_chamado'))
 
 @app.route('/sgci/admin', methods = ['GET'])
 def administracao():
+    """
+    Redirecionar da administração para o login
+    """
     return redirect(url_for('login_admin'))
 
 @app.route('/sgci/abrir_chamado', methods = ['GET', 'POST'])
 def abrir_chamado():
+    """
+    Obter os valores dos campos do formulário do template e organizar para inserir no banco
+    """
     if request.method == 'POST':
         nome_solicitante = request.form.get('nome_solicitante')
         setor = request.form.get('setor')
@@ -33,6 +42,9 @@ def abrir_chamado():
 
 @app.route('/sgci/admin/login_admin', methods = ['GET', 'POST'])
 def login_admin():
+    """
+    Adiciona o usuário na sessão de login, se o mesmo obter login com êxito 
+    """
     if request.method == 'POST':
         email = request.form.get('email')
         senha = request.form.get('senha')
@@ -51,6 +63,9 @@ def login_admin():
 
 @app.route('/sgci/admin/inicio', methods = ['GET'])
 def inicio():
+    """
+    Envia os chamados para o template, lá serão tratados com base na API
+    """
     if not('usuario' in session):
         flash('Conexão expirada! Faça o login!', 'danger')
         return redirect(url_for('login_admin'))
@@ -61,6 +76,9 @@ def inicio():
 
 @app.context_processor
 def usuario_logado():
+    """
+    Define uma variável 'global', fundamental pois o nome do usuário logado aparece em todas as páginas, e não somente na página de inicio
+    """
     usuario = session.get('usuario')
     if usuario:
         return {'nome': usuario['nome']}
@@ -68,17 +86,26 @@ def usuario_logado():
 
 @app.route('/logout', methods=['GET'])
 def logout():
+    """
+    Remove o usuário da sessão quando o mesmo realizar o logout
+    """
     session.pop('usuario', None)
     return redirect(url_for('login_admin'))
 
 @app.route('/sgci/admin/dashboard', methods=['GET'])
 def dashboard():
+    """
+    Futura implementação, exibir o dashboard desenvolvido em PowerBI
+    """
     if not('usuario' in session):
         abort(401)
     return render_template('dashboard.html')
 
 @app.route('/sgci/admin/chamados', methods=['GET'])
 def gerenciar_chamados():
+    """
+    Retorna uma lista dos chamados cadastrados, situação e informações relevantes
+    """
     if not('usuario' in session):
         abort(401)
     response, status = api_chamados()
@@ -89,4 +116,13 @@ def gerenciar_chamados():
 
 @app.route('/sgci/admin/chamado/<string:id>', methods = ['GET'])
 def detalhar_chamado(id):
-    return render_template('detalhar_chamado.html', id=id)
+    """
+    Docstring for detalhar_chamado
+    
+    :param id: Recebe como parâmetro o ID do chamado
+    """
+    if not('usuario' in session):
+        abort(401)
+    
+    dados = extrair_dados('registro_chamados')
+    return render_template('detalhar_chamado.html', chamado = dados[f'{id}'])

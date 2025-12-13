@@ -6,7 +6,66 @@
 {% endblock %}
 
 {% block conteudo_main %}
-<main>
-    <h1>{{ id }}</h1>
+<main>  
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('gerenciar_chamados') }}">Chamados</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chamado</li>
+        </ol>
+    </nav>
+    <section class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+        <div>
+            <div class="mb-3">
+                <label class="form-label" for="nome_solicitante"><i class="bi bi-people"></i> Nome Solicitante</label>
+                <input type="text" id="nome_solicitante" class="form-control" value="{{ chamado['nome_solicitante'] }}"
+                    readonly disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="setor"><i class="bi bi-building"></i> Setor</label>
+                <input type="text" id="setor" class="form-control" value="{{ chamado['setor'] }}" readonly disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="tipo_servico"><i class="bi bi-gear"></i> Tipo Serviço</label>
+                <input type="text" id="tipo_servico" class="form-control" value="{{ chamado['tipo_servico'].title() }}"
+                    readonly disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="localizacao"><i class="bi bi-geo-alt"></i> Localização</label>
+                <input type="text" id="localizacao" class="form-control" value="{{ chamado['localizacao'].title() }}"
+                    readonly disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="data_e_hora"><i class="bi bi-calendar-day"></i> Data e Hora</label>
+                <input type="text" id="data_e_hora" class="form-control"
+                    value="{{ chamado['data'].title() }} | {{ chamado['horario'].title() }}" readonly disabled>
+            </div>
+
+        </div>
+        <div>
+            <div class="mb-3">
+                <label class="form-label" for="descricao"><i class="bi bi-card-text"></i> Descrição</label>
+                <textarea class="form-control" id="descricao" readonly disabled>{{ chamado['descricao'] }}</textarea>
+            </div>
+            <div>
+                <label for="status"><i class="bi bi-journal"></i> Status: </label>
+                <span class="badge text-bg-{% if chamado['status'] == 'Aberto'%}warning
+                {% elif chamado['status'] == 'Fechado' %}success
+                {% else %}secondary
+                {% endif %}" style="font-size: 15px;">{{ chamado['status'] }}</span>
+                <label for=""><i class="bi bi-clock-history"></i> Prioridade:</label>
+                <span class="badge text-bg-{% if chamado['prioridade'] == 'alta' %}danger
+                {% elif chamado['prioridade'] == 'media' %}warning
+                {% else %}secondary
+                {% endif %}" style="font-size: 15px;">{{ chamado['prioridade'].title() }}</span>
+            </div>
+            <div class="campo_botoes">
+                <button class="btn btn-primary"><i class="bi bi-headset"></i> Atender</button>
+                <button class="btn btn-success"><i class="bi bi-check-all"></i> Fechar Chamado</button>
+                <button class="btn btn-danger"><i class="bi bi-trash"></i> Excluir</button>
+                <button class="btn btn-warning"><i class="bi bi-pencil"></i> Editar</button>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

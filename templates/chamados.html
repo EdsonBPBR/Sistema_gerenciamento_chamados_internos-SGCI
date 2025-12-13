@@ -35,12 +35,16 @@
                 <td>{{ chamado[1]['nome_solicitante'] }}</td>
                 <td>{{ chamado[1]['setor'] }}</td>
                 <td>{{ chamado[1]['tipo_servico'].title() }}</td>
-                <td>{{ chamado[1]['prioridade'].title() }}</td>
+                <td><span class="badge  text-bg-{% if chamado[1]['prioridade'] == 'alta' %}danger
+                {% elif chamado[1]['prioridade'] == 'media' %}warning
+                {% else %}secondary
+                {% endif %}">{{ chamado[1]['prioridade'].title() }}</span></td>
                 <td>{{ chamado[1]['data'] }}</td>
                 <td>{{ chamado[1]['horario'] }}</td>
                 <td><span
-                        class="badge rounded-pill text-bg-{% if chamado[1]['status']=='Aberto' %}warning{% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary{% else %}success{% endif %}">{{
-                        chamado[1]['status'].title() }}</span></td>
+                        class="badge text-bg-{% if chamado[1]['status']=='Aberto' %}warning
+                        {% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary
+                        {% else %}success{% endif %}">{{chamado[1]['status'].title() }}</span></td>
                 <td><button data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" onclick="window.location.href=this.getAttribute('data-url')" class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button></td>
             </tr>
             {% endfor %}

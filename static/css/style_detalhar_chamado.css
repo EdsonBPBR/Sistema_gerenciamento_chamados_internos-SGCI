@@ -2,3 +2,26 @@ main {
     margin: auto;
     width: 95%;
 }
+
+main>section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.campo_botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+input, textarea {
+    font-weight: bold !important;
+}
+
+textarea {
+    max-height: 18rem;
+    height: 8rem;
+}

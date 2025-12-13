@@ -38,14 +38,17 @@
                             </thead>
                             <tbody id="tabela-abertos" class="table-group-divider">
                                 <!--id = "tabela-abertos", possibilita a atualização automática-->
-                                {% for registro in chamados_abertos.values() %}
-                                {% if registro['status'] == 'Aberto' %}
+                                {% for chamado in chamados_abertos.values() %}
+                                {% if chamado['status'] == 'Aberto' %}
                                 <tr>
-                                    <th scope="row">{{ registro['nome_solicitante'] }}</th>
-                                    <td>{{ registro['tipo_servico'].title() }}</td>
-                                    <td>{{ registro['setor'].title() }}</td>
-                                    <td>{{ registro['prioridade'].title() }}</td>
-                                    <td>{{ registro['data'] }} {{ registro['horario'] }}</td>
+                                    <th scope="row">{{ chamado['nome_solicitante'] }}</th>
+                                    <td>{{ chamado['tipo_servico'].title() }}</td>
+                                    <td>{{ chamado['setor'].title() }}</td>
+                                    <td><span class="badge  text-bg-{% if chamado['prioridade'] == 'alta' %}danger
+                                                                    {% elif chamado['prioridade'] == 'media' %}warning
+                                                                    {% else %}secondary
+                                                                    {% endif %}">{{ chamado['prioridade'].title() }}</span></td>
+                                    <td>{{ chamado['data'] }} {{ chamado['horario'] }}</td>
                                 </tr>
                                 {% endif %}
                                 {% endfor %}

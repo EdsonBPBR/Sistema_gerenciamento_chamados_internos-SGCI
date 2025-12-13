@@ -24,7 +24,7 @@
                 <a class="navbar-brand" href="{{ url_for('inicio') }}">
                     <img src="https://concord.net.br/static/img/logo-menor-concordnet-azul-escuro-reduzida1.png"
                         alt="Logo" width="auto" height="35" class="d-inline-block align-text-top">
-                    SISTEMA GERENCIAMENTO CHAMADOS INTERNOS
+                    SGCI
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -43,9 +43,6 @@
                                 <a class="nav-link" aria-current="page" href="{{ url_for('inicio') }}">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#"><i class="bi bi-telephone-forward"></i> Abrir chamado</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{{ url_for('dashboard') }}"><i class="bi bi-bar-chart"></i> Dashboard (PowerBI)</a>
                             </li>
 
@@ -55,8 +52,8 @@
                                     <i class="bi bi-telephone-inbound"></i> Chamados
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ url_for('gerenciar_chamados') }}">Gerenciar Chamados</a></li>
-                                    <li><a class="dropdown-item" href="#">Chamados Abertos</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('gerenciar_chamados') }}"><i class="bi bi-clipboard-data"></i> Gerenciar Chamados</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-telephone-forward"></i> Abrir Chamado</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -86,6 +83,11 @@
 
     {% block scripts %}
     {% endblock %}
+
+    <footer>
+        2025 - 2026 &copy Desenvolvido por Edson Ponciúncula
+    </footer>
+
     <!-- Scripts de animações e interação do bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
