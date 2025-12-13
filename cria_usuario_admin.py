@@ -2,15 +2,8 @@
 Algoritmo para criação dos usuários administradores do sistema, futuramente possibilidar que os usuários admim criem outros
 """
 from werkzeug.security import generate_password_hash
-from models.models import extrair_dados, salvar_dados
-import json
+from models.models import extrair_dados, salvar_dados, verifica_banco
 import secrets
-import os
-
-def verifica_arquivo():
-    if not(os.path.isfile('models/usuarios_admin.json')):
-        with open('models/usuarios_admin.json', 'w') as arquivo:
-            json.dump({}, arquivo)
     
 def verifica_email_cadastrado(dados, email):
     for dado in dados.values():
@@ -19,7 +12,7 @@ def verifica_email_cadastrado(dados, email):
     return False
 
 def main():
-    verifica_arquivo()
+    verifica_banco('usuarios_admin')
     dados = extrair_dados('usuarios_admin')
     nome_completo = str(input('Nome do usuário: ')).strip()
     celular = str(input('Celular: ')).strip()
