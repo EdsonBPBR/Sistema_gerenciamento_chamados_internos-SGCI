@@ -1,0 +1,15 @@
+main {
+    width: 95%;
+    margin: auto;
+}
+
+main>div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+main>div>form{
+    display: flex;
+    gap: 5px;
+}

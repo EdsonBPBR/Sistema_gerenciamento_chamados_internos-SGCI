@@ -2,3 +2,8 @@ main {
     margin: auto;
     width: 95%;
 }
+
+caption>div {
+    display: flex;
+    justify-content: space-between;
+}
