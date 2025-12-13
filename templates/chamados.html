@@ -32,16 +32,16 @@
         <tbody>
             {% for chamado in chamados %}
             <tr>
-                <td>{{ chamado['nome_solicitante'] }}</td>
-                <td>{{ chamado['setor'] }}</td>
-                <td>{{ chamado['tipo_servico'].title() }}</td>
-                <td>{{ chamado['prioridade'].title() }}</td>
-                <td>{{ chamado['data'] }}</td>
-                <td>{{ chamado['horario'] }}</td>
+                <td>{{ chamado[1]['nome_solicitante'] }}</td>
+                <td>{{ chamado[1]['setor'] }}</td>
+                <td>{{ chamado[1]['tipo_servico'].title() }}</td>
+                <td>{{ chamado[1]['prioridade'].title() }}</td>
+                <td>{{ chamado[1]['data'] }}</td>
+                <td>{{ chamado[1]['horario'] }}</td>
                 <td><span
-                        class="badge rounded-pill text-bg-{% if chamado['status']=='Aberto' %}warning{% elif chamado['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary{% else %}success{% endif %}">{{
-                        chamado['status'].title() }}</span></td>
-                <td><button class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button></td>
+                        class="badge rounded-pill text-bg-{% if chamado[1]['status']=='Aberto' %}warning{% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary{% else %}success{% endif %}">{{
+                        chamado[1]['status'].title() }}</span></td>
+                <td><button data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" onclick="window.location.href=this.getAttribute('data-url')" class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button></td>
             </tr>
             {% endfor %}
         </tbody>

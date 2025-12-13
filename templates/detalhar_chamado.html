@@ -1,0 +1,12 @@
+{% extends '_layouts/base.html' %}
+
+{% block head %}
+<title>Chamado</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_detalhar_chamado.css') }}">
+{% endblock %}
+
+{% block conteudo_main %}
+<main>
+    <h1>{{ id }}</h1>
+</main>
+{% endblock %}
