@@ -13,3 +13,34 @@ main>div>form{
     display: flex;
     gap: 5px;
 }
+
+.tabela_wrapper {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+/* faixa azul superior */
+.tabela_wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #04436F;
+    border-radius: 14px 14px 0 0;
+    z-index: 2;
+}
+
+/* tabela fica abaixo da faixa */
+.tabela_chamados {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+}
+
+.alerta_nenhum_encontrado {
+    text-align: center;
+}
