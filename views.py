@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, url_for, flash, session, a
 from utils.funcionalidades import inserir_chamados
 from models.models import extrair_dados
 from utils.login import verifica_login
+from utils.filtro_chamados import pesquisa_por_solicitante, filtro_por_selecao
 from apis import api_chamados, api_chamados_abertos
 
 @app.route('/', methods = ['GET'])
@@ -51,6 +52,7 @@ def login_admin():
         
         sucesso_login, usuario = verifica_login(email, senha)
         if sucesso_login:
+            session.permanent = True
             session['usuario'] = {
                 'nome': usuario['nome'],
                 'celular': usuario['celular'],
@@ -101,18 +103,38 @@ def dashboard():
         abort(401)
     return render_template('dashboard.html')
 
-@app.route('/sgci/admin/chamados', methods=['GET'])
+@app.route('/sgci/admin/chamados', methods=['GET', 'POST'])
 def gerenciar_chamados():
     """
     Retorna uma lista dos chamados cadastrados, situação e informações relevantes
     """
     if not('usuario' in session):
-        abort(401)
+        abort(400)
     response, status = api_chamados()
+    instancias = response['chamados']
+    
     if status != 200:
         abort(status)
-    return render_template('chamados.html',
-                           chamados=response['chamados'])
+        
+    if request.method == 'POST':
+        acao = request.form.get('acao')
+
+        if acao == 'aplicar_pesquisa':
+            pesquisa = request.form.get('pesquisa')
+            instancias = pesquisa_por_solicitante(pesquisa, response['chamados'])
+        
+        elif acao == 'aplicar_filtro':
+            status = request.form.getlist('status')
+            servico = request.form.getlist('servico')
+            prioridade = request.form.getlist('prioridade')
+            
+            instancias = filtro_por_selecao(status, servico, prioridade, response['chamados'])
+                    
+        elif acao == 'limpar_filtro':
+            instancias = response['chamados']
+            
+            
+    return render_template('chamados.html', chamados=instancias)
 
 @app.route('/sgci/admin/chamado/<string:id>', methods = ['GET'])
 def detalhar_chamado(id):
@@ -122,7 +144,7 @@ def detalhar_chamado(id):
     :param id: Recebe como parâmetro o ID do chamado
     """
     if not('usuario' in session):
-        abort(401)
+        abort(400)
     
     dados = extrair_dados('registro_chamados')
     return render_template('detalhar_chamado.html', chamado = dados[f'{id}'])

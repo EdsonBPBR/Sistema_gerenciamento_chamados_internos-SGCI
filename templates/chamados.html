@@ -6,50 +6,173 @@
 {% endblock %}
 
 {% block conteudo_main %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Filtro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+
+                    <label>Status Chamados</label>
+                    <div class="form-check">
+                        <input class="form-check-input" name="status" value="Aberto" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkDefault">
+                            Abertos
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="status" value="Em Andamento" type="checkbox"
+                            id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Em Andamento
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="status" value="Fechado" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Fechados
+                        </label>
+                    </div>
+
+                    <label>Tipo Servico</label>
+                    <div class="form-check">
+                        <input class="form-check-input" name="servico" value="manutencao" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Manutenção
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="servico" value="suporte" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Suporte
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="servico" value="redes_e_infraestrutura" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Redes e Infraestrutura
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="servico" value="desenvolvimento" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            Desenvolvimento
+                        </label>
+                    </div>
+
+                    <label>Prioridade</label>
+                    <div class="form-check">
+                        <input class="form-check-input" name="prioridade" value="alta" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            <span class="badge text-bg-danger">Alta</span>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="prioridade" value="media" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            <span class="badge text-bg-warning">Média</span>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="prioridade" value="baixa" type="checkbox" id="checkChecked">
+                        <label class="form-check-label" for="checkChecked">
+                            <span class="badge text-bg-secondary">Baixa</span>
+                        </label>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <button 
+                            type="submit" 
+                            name="acao" 
+                            value="limpar_filtro" 
+                            class="btn btn-secondary" 
+                            data-bs-dismiss="modal">Limpar</button>
+                        <button 
+                            type="submit" 
+                            name="acao" 
+                            value="aplicar_filtro" 
+                            class="btn btn-primary">Aplicar
+                            Filtro</button> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <main>
     <div class="button-border">
         <div>
-            <button class="btn btn-sm btn-primary"><i class="bi bi-filter"></i> Filtro</button>
-            <button class="btn btn-sm btn-success"><i class="bi bi-filetype-xlsx"></i> Excel</button>
+            <button 
+                type="button" 
+                class="btn btn-sm btn-outline-primary" 
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"><i class="bi bi-filter"></i></button>
+            <button 
+                class="btn btn-sm btn-outline-success"
+                data-url="{{ url_for('gerar_planilha') }}"
+                onclick="window.location.href=this.getAttribute('data-url')"
+                type="button"><i class="bi bi-filetype-xlsx"></i></button>
         </div>
-        <form action="#">
-            <button class="btn btn-sm btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
-            <input type="text" class="form-control">
+        <form method="post">
+            <button class="btn btn-sm btn-outline-secondary" 
+                type="submit" 
+                name="acao"
+                value="aplicar_pesquisa"><i class="bi bi-search"></i></button>
+            <input name="pesquisa" type="text" class="form-control" placeholder="Pesquisar por solicitante">
         </form>
     </div>
 
-    <table class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
-        <thead class="table-light">
-            <th>Nome Solicitante</th>
-            <th>Setor</th>
-            <th>Serviço</th>
-            <th>Prioridade</th>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Status</th>
-            <th>Ação</th>
-        </thead>
-        <tbody>
-            {% for chamado in chamados %}
-            <tr>
-                <td>{{ chamado[1]['nome_solicitante'] }}</td>
-                <td>{{ chamado[1]['setor'] }}</td>
-                <td>{{ chamado[1]['tipo_servico'].title() }}</td>
-                <td><span class="badge  text-bg-{% if chamado[1]['prioridade'] == 'alta' %}danger
+    <div class="tabela_wrapper">
+        <table
+            class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded tabela_chamados text-center">
+            <thead class="table-light">
+                <th>Nome Solicitante</th>
+                <th>Setor</th>
+                <th>Serviço</th>
+                <th>Prioridade</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </thead>
+            <tbody>
+                {% for chamado in chamados %}
+                <tr>
+                    <td>{{ chamado[1]['nome_solicitante'] }}</td>
+                    <td>{{ chamado[1]['setor'] }}</td>
+                    <td>{{ chamado[1]['tipo_servico'].title() }}</td>
+                    <td><span class="badge  text-bg-{% if chamado[1]['prioridade'] == 'alta' %}danger
                 {% elif chamado[1]['prioridade'] == 'media' %}warning
                 {% else %}secondary
                 {% endif %}">{{ chamado[1]['prioridade'].title() }}</span></td>
-                <td>{{ chamado[1]['data'] }}</td>
-                <td>{{ chamado[1]['horario'] }}</td>
-                <td><span
-                        class="badge text-bg-{% if chamado[1]['status']=='Aberto' %}warning
+                    <td>{{ chamado[1]['data'] }}</td>
+                    <td>{{ chamado[1]['horario'] }}</td>
+                    <td><span class="badge text-bg-{% if chamado[1]['status']=='Aberto' %}warning
                         {% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary
                         {% else %}success{% endif %}">{{chamado[1]['status'].title() }}</span></td>
-                <td><button data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" onclick="window.location.href=this.getAttribute('data-url')" class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <td>
+                        <button data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" title="Detalhar chamado"
+                            onclick="window.location.href=this.getAttribute('data-url')"
+                            class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button>
+                        <button class="btn btn-sm btn-primary" title="Atender chamado"><i class="bi bi-headset"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if chamados|length == 0 %}
+    <p class="alerta_nenhum_encontrado">Nenhum registro encontrado...</p>
+    {% endif %}
+
     <!-- sistema de paginação -->
     <div class="paginacao">
         <nav aria-label="Page navigation example">
