@@ -72,9 +72,27 @@ def inicio():
         flash('Conexão expirada! Faça o login!', 'danger')
         return redirect(url_for('login_admin'))
     
-    dados = extrair_dados('registro_chamados')
+    response, status = api_chamados_abertos()
+    chamados, status = api_chamados() # dados necessários para alimentar os gráficos
+    
+    if status != 200:
+        abort(status)
+
+    abertos = andamentos = fechados = 0
+    
+    for chamado in chamados['chamados']:
+        if chamado[1]['status'] == 'Aberto':
+            abertos += 1
+        elif chamado[1]['status'] == 'Em Andamento':
+            andamentos += 1
+        elif chamado[1]['status'] == 'Fechado':
+            fechados += 1
+    
     return render_template('inicio.html',
-                           chamados_abertos = dados)
+                           chamados_abertos = response,
+                           labels=['Abertos', 'Em Andamento', 'Fechados'],
+                            valores=[abertos, andamentos, fechados]
+                            )
 
 @app.context_processor
 def usuario_logado():

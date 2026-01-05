@@ -7,3 +7,49 @@ caption>div {
     display: flex;
     justify-content: space-between;
 }
+
+.tabela_wrapper {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+.tabela_wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #04436F;
+    border-radius: 14px 14px 0 0;
+    z-index: 2;
+}
+
+.tabela_chamados {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+}
+
+.alerta_nenhum_encontrado {
+    text-align: center;
+}
+
+.info_tabela {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    align-items: center ;  
+}
+
+.graficos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+canvas {
+    max-height: 350px;
+}
