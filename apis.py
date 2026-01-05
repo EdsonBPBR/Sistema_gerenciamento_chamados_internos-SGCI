@@ -20,7 +20,7 @@ def api_chamados_abertos():
     }
     return {'chamados': sorted(chamados,
                                key=lambda x: ordem_prioridades[x['prioridade']],
-                               reverse=True)}
+                               reverse=True)}, 200
     
 @app.route('/sgci/admin/api/chamados', methods = ['GET'])
 def api_chamados():
@@ -48,4 +48,4 @@ def api_chamados():
                       key=lambda c:(ordem_status_chamados[c[1]['status']],
                                     ordem_prioridades[c[1]['prioridade']]),
                       reverse=True)
-    return {"chamados": chamados}, 200
+    return {'chamados': chamados}, 200

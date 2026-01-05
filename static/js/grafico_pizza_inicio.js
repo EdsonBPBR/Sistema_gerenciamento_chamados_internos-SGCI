@@ -1,20 +1,20 @@
-const ctx = document.getElementById('grafico_pizza');
+document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('grafico_pizza');
 
-new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+    if (!ctx) return;
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: GRAFICO_PIZZA_LABELS,
+            datasets: [{
+                label: 'Chamados',
+                data: GRAFICO_PIZZA_VALORES,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
         }
-    }
+    });
 });

@@ -6,27 +6,39 @@
 {% endblock %}
 
 {% block conteudo_main %}
-<main class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+<main>
     <section>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-4">
+                <div class="col-4 coluna_grafico">
                     <div>
-                        <canvas id="grafico_pizza"></canvas>
+                        <canvas style="height: 100px;" id="grafico_pizza"></canvas>
                     </div>
+                    <script>
+                        const GRAFICO_PIZZA_LABELS = {{ labels | tojson }};
+                        const GRAFICO_PIZZA_VALORES = {{ valores | tojson }};
+                    </script>
                 </div>
 
                 <!-- tabela últimos registros carregada -->
                 <div class="col-8">
-                    <div class="table-responsive">
+                    <div class="info_tabela">
+                        <span class="badge text-bg-secondary">Últimos Chamados Abertos</span>
+
+                        <button type="button" class="btn btn-sm btn-outline-primary position-relative"
+                            data-url="{{ url_for('gerenciar_chamados') }}"
+                            onclick="window.location.href=this.getAttribute('data-url')">
+                            Chamados
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ chamados_abertos['chamados']|length }}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="tabela_wrapper">
                         <table
-                            class="table table-bordered table-hover caption-top shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
-                            <caption>
-                                <div>
-                                    <span class="badge text-bg-primary">Últimos Chamados Abertos</span>
-                                    <a href="{{ url_for('gerenciar_chamados') }}">Chamados</a>
-                                </div>
-                            </caption>
+                            class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Solicitante</th>
@@ -47,7 +59,8 @@
                                     <td><span class="badge  text-bg-{% if chamado['prioridade'] == 'alta' %}danger
                                                                     {% elif chamado['prioridade'] == 'media' %}warning
                                                                     {% else %}secondary
-                                                                    {% endif %}">{{ chamado['prioridade'].title() }}</span></td>
+                                                                    {% endif %}">{{ chamado['prioridade'].title()
+                                            }}</span></td>
                                     <td>{{ chamado['data'] }} {{ chamado['horario'] }}</td>
                                 </tr>
                                 {% endif %}
@@ -79,6 +92,14 @@
                     <canvas id="goodCanvas1" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="graficos">
+        <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+            <canvas id="grafico_pizza"></canvas>
+        </div>
+        <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+            <canvas id="grafico_pizza"></canvas>
         </div>
     </section>
 </main>
