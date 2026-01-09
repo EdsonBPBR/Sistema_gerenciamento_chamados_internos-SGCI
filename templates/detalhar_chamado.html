@@ -6,66 +6,114 @@
 {% endblock %}
 
 {% block conteudo_main %}
-<main>  
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ url_for('gerenciar_chamados') }}">Chamados</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Chamado</li>
-        </ol>
-    </nav>
-    <section class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-        <div>
-            <div class="mb-3">
-                <label class="form-label" for="nome_solicitante"><i class="bi bi-people"></i> Nome Solicitante</label>
-                <input type="text" id="nome_solicitante" class="form-control" value="{{ chamado['nome_solicitante'] }}"
-                    readonly disabled>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Chamado</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="setor"><i class="bi bi-building"></i> Setor</label>
-                <input type="text" id="setor" class="form-control" value="{{ chamado['setor'] }}" readonly disabled>
+            <div class="modal-body">
+                Deseja excluir esse chamado? <br><span class="text-danger"><strong>*</strong></span><span class="text-secondary">Essa ação é irreversível!</span>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="tipo_servico"><i class="bi bi-gear"></i> Tipo Serviço</label>
-                <input type="text" id="tipo_servico" class="form-control" value="{{ chamado['tipo_servico'].title() }}"
-                    readonly disabled>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form method="post">
+                    <button type="submit" class="btn btn-danger" name="acao" value="excluir_chamado">Confirmar</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="localizacao"><i class="bi bi-geo-alt"></i> Localização</label>
-                <input type="text" id="localizacao" class="form-control" value="{{ chamado['localizacao'].title() }}"
-                    readonly disabled>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="data_e_hora"><i class="bi bi-calendar-day"></i> Data e Hora</label>
-                <input type="text" id="data_e_hora" class="form-control"
-                    value="{{ chamado['data'].title() }} | {{ chamado['horario'].title() }}" readonly disabled>
-            </div>
+        </div>
+    </div>
+</div>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Voltar</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('gerenciar_chamados') }}">Chamados</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chamado</li>
+    </ol>
+</nav>
+<section class="card_wrapper shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <div>
+        <div class="mb-3">
+            <label class="form-label" for="nome_solicitante"><i class="bi bi-people"></i> Nome Solicitante</label>
+            <input type="text" id="nome_solicitante" class="form-control" value="{{ chamado['nome_solicitante'] }}"
+                readonly disabled>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="setor"><i class="bi bi-building"></i> Setor</label>
+            <input type="text" id="setor" class="form-control" value="{{ chamado['setor'] }}" readonly disabled>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="tipo_servico"><i class="bi bi-gear"></i> Tipo Serviço</label>
+            <input type="text" id="tipo_servico" class="form-control" value="{{ chamado['tipo_servico'].title() }}"
+                readonly disabled>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="localizacao"><i class="bi bi-geo-alt"></i> Localização</label>
+            <input type="text" id="localizacao" class="form-control" value="{{ chamado['localizacao'].title() }}"
+                readonly disabled>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="data_e_hora"><i class="bi bi-calendar-day"></i> Data e Hora</label>
+            <input type="text" id="data_e_hora" class="form-control"
+                value="{{ chamado['data'].title() }} | {{ chamado['horario'].title() }}" readonly disabled>
+        </div>
+    </div>
+    <div>
+        <div class="mb-3">
+            <label class="form-label" for="descricao"><i class="bi bi-card-text"></i> Descrição</label>
+            <textarea class="form-control" id="descricao" readonly disabled>{{ chamado['descricao'] }}</textarea>
         </div>
         <div>
-            <div class="mb-3">
-                <label class="form-label" for="descricao"><i class="bi bi-card-text"></i> Descrição</label>
-                <textarea class="form-control" id="descricao" readonly disabled>{{ chamado['descricao'] }}</textarea>
-            </div>
-            <div>
-                <label for="status"><i class="bi bi-journal"></i> Status: </label>
-                <span class="badge text-bg-{% if chamado['status'] == 'Aberto'%}warning
-                {% elif chamado['status'] == 'Fechado' %}success
-                {% else %}secondary
-                {% endif %}" style="font-size: 15px;">{{ chamado['status'] }}</span>
-                <label for=""><i class="bi bi-clock-history"></i> Prioridade:</label>
-                <span class="badge text-bg-{% if chamado['prioridade'] == 'alta' %}danger
-                {% elif chamado['prioridade'] == 'media' %}warning
-                {% else %}secondary
-                {% endif %}" style="font-size: 15px;">{{ chamado['prioridade'].title() }}</span>
-            </div>
-            <div class="campo_botoes">
-                <button class="btn btn-primary"><i class="bi bi-headset"></i> Atender</button>
-                <button class="btn btn-success"><i class="bi bi-check-all"></i> Fechar Chamado</button>
-                <button class="btn btn-danger"><i class="bi bi-trash"></i> Excluir</button>
-                <button class="btn btn-warning"><i class="bi bi-pencil"></i> Editar</button>
-            </div>
+            <label for="status"><i class="bi bi-journal"></i> Status: </label>
+            <span class="badge text-bg-{% if chamado['status'] == 'Aberto'%}warning
+            {% elif chamado['status'] == 'Fechado' %}success
+            {% else %}secondary
+            {% endif %}" style="font-size: 15px;">{{ chamado['status'] }}</span>
+            <label for=""><i class="bi bi-clock-history"></i> Prioridade:</label>
+            <span class="badge text-bg-{% if chamado['prioridade'] == 'alta' %}danger
+            {% elif chamado['prioridade'] == 'media' %}warning
+            {% else %}secondary
+            {% endif %}" style="font-size: 15px;">{{ chamado['prioridade'].title() }}</span>
         </div>
-    </section>
-</main>
+        <div class="campo_botoes">
+            <form method="post">
+                <button 
+                    type="submit" 
+                    class="btn btn-outline-primary" 
+                    name="acao" 
+                    value="atender_chamado" 
+                    {% if (chamado['status']=='Em Andamento' 
+                            or chamado['status']=='Fechado' ) %} disabled {% endif %}>
+                    <i class="bi bi-headset"></i> Atender
+                </button>
+
+                <button 
+                    type="submit" 
+                    class="btn btn-outline-success" 
+                    name="acao" 
+                    value="fechar_chamado" 
+                    {% if (chamado['status']=='Aberto' 
+                            or chamado['status']=='Fechado') %} disabled {% endif %}>
+                        <i class="bi bi-check-all"></i> Fechar Chamado
+                </button>
+
+                <button 
+                    type="button" 
+                    class="btn btn-outline-secondary" 
+                    name="acao" 
+                    data-url="{{ url_for('editar_chamado', id=id_chamado) }}"
+                    onclick="window.location.href=this.getAttribute('data-url')"
+                    value="editar_chamado"><i class="bi bi-pencil"></i> Editar
+                </button>
+
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                        class="bi bi-trash"></i> Excluir
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

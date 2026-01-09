@@ -6,8 +6,7 @@
 {% endblock %}
 
 {% block conteudo_main %}
-
-<!-- Modal -->
+<!-- Modal filtro -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,93 +104,108 @@
     </div>
 </div>
 
-<main>
-    <div class="button-border">
-        <div>
-            <button 
-                type="button" 
-                class="btn btn-sm btn-outline-primary" 
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"><i class="bi bi-filter"></i></button>
-            <button 
-                class="btn btn-sm btn-outline-success"
-                data-url="{{ url_for('gerar_planilha') }}"
-                onclick="window.location.href=this.getAttribute('data-url')"
-                type="button"><i class="bi bi-filetype-xlsx"></i></button>
-        </div>
-        <form method="post">
-            <button class="btn btn-sm btn-outline-secondary" 
-                type="submit" 
-                name="acao"
-                value="aplicar_pesquisa"><i class="bi bi-search"></i></button>
-            <input name="pesquisa" type="text" class="form-control" placeholder="Pesquisar por solicitante">
-        </form>
+<div class="button-border">
+    <div>
+        <button 
+            type="button" 
+            class="btn btn-sm btn-outline-primary" 
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"><i class="bi bi-filter"></i></button>
+        <button 
+            class="btn btn-sm btn-outline-success"
+            data-url="{{ url_for('gerar_planilha') }}"
+            onclick="window.location.href=this.getAttribute('data-url')"
+            type="button"><i class="bi bi-filetype-xlsx"></i></button>
     </div>
+    <form method="post">
+        <button class="btn btn-sm btn-outline-secondary" 
+            type="submit" 
+            name="acao"
+            value="aplicar_pesquisa"><i class="bi bi-search"></i></button>
+        <input name="pesquisa" type="text" class="form-control" placeholder="Pesquisar por solicitante">
+    </form>
+</div>
 
-    <div class="tabela_wrapper">
-        <table
-            class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded tabela_chamados text-center">
-            <thead class="table-light">
-                <th>Nome Solicitante</th>
-                <th>Setor</th>
-                <th>Serviço</th>
-                <th>Prioridade</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </thead>
-            <tbody>
-                {% for chamado in chamados %}
-                <tr>
-                    <td>{{ chamado[1]['nome_solicitante'] }}</td>
-                    <td>{{ chamado[1]['setor'] }}</td>
-                    <td>{{ chamado[1]['tipo_servico'].title() }}</td>
-                    <td><span class="badge  text-bg-{% if chamado[1]['prioridade'] == 'alta' %}danger
-                {% elif chamado[1]['prioridade'] == 'media' %}warning
-                {% else %}secondary
-                {% endif %}">{{ chamado[1]['prioridade'].title() }}</span></td>
-                    <td>{{ chamado[1]['data'] }}</td>
-                    <td>{{ chamado[1]['horario'] }}</td>
-                    <td><span class="badge text-bg-{% if chamado[1]['status']=='Aberto' %}warning
-                        {% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary
-                        {% else %}success{% endif %}">{{chamado[1]['status'].title() }}</span></td>
-                    <td>
-                        <button data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" title="Detalhar chamado"
-                            onclick="window.location.href=this.getAttribute('data-url')"
-                            class="btn btn-sm btn-success"><i class="bi bi-box-arrow-in-up-right"></i></button>
-                        <button class="btn btn-sm btn-primary" title="Atender chamado"><i class="bi bi-headset"></i>
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="tabela_wrapper">
+    <table
+        class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded tabela_chamados text-center">
+        <thead class="table-light">
+            <th>Nome Solicitante</th>
+            <th>Setor</th>
+            <th>Serviço</th>
+            <th>Prioridade</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </thead>
+        <tbody>
+            {% for chamado in chamados %}
+            <tr>
+                <td>{{ chamado[1]['nome_solicitante'] }}</td>
+                <td>{{ chamado[1]['setor'] }}</td>
+                <td>{{ chamado[1]['tipo_servico'].title() }}</td>
+                <td><span class="badge  text-bg-{% if chamado[1]['prioridade'] == 'alta' %}danger
+                    {% elif chamado[1]['prioridade'] == 'media' %}warning
+                    {% else %}secondary
+                    {% endif %}">
+                    {{ chamado[1]['prioridade'].title() }}</span>
+                </td>
+                <td>{{ chamado[1]['data'] }}</td>
+                <td>{{ chamado[1]['horario'] }}</td>
+                <td><span class="badge text-bg-{% if chamado[1]['status']=='Aberto' %}warning
+                    {% elif chamado[1]['status'] in ['Em Andamento', 'em andamento', 'Andamento'] %}secondary
+                    {% else %}success{% endif %}">{{chamado[1]['status'].title() }}</span></td>
+                <td>
+                    <button 
+                        type="button"
+                        data-url="{{ url_for('detalhar_chamado', id=chamado[0]) }}" 
+                        title="Detalhar chamado"
+                        onclick="window.location.href=this.getAttribute('data-url')"
+                        class="btn btn-sm btn-success">
+                        <i class="bi bi-box-arrow-in-up-right"></i>
+                    </button>
+                    <button 
+                        type="button"
+                        data-bs-toggle="modal" data-bs-target="#modal_status"
+                        class="btn btn-sm btn-primary" 
+                        title="Atender chamado"
+                        data-url="{{ url_for('atender_chamado', id=chamado[0]) }}"
+                        onclick="window.location.href=this.getAttribute('data-url')"
+                        {% if chamado[1]['status'] == 'Em Andamento' or chamado[1]['status'] == 'Fechado' %} disabled {% endif %}
+                        >
+                        <i class="bi bi-headset"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-    {% if chamados|length == 0 %}
-    <p class="alerta_nenhum_encontrado">Nenhum registro encontrado...</p>
-    {% endif %}
+{% if chamados|length == 0 %}
+<p class="alerta_nenhum_encontrado">Nenhum registro encontrado...</p>
+{% endif %}
 
-    <!-- sistema de paginação -->
-    <div class="paginacao">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</main>
+<!-- sistema de paginação -->
+<div class="paginacao">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 {% endblock %}

@@ -3,7 +3,7 @@ main {
     width: 95%;
 }
 
-main>section {
+main>section>form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -41,4 +41,8 @@ textarea {
     background-color: #04436F;
     border-radius: 14px 0 0 14px;
     z-index: 2;
+}
+
+select {
+    font-weight: bold !important;
 }

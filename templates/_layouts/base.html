@@ -78,8 +78,23 @@
         </nav>
     </header>
 
-    {% block conteudo_main %}
-    {% endblock %}
+    <main>
+        <!-- sistema de mensagens -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert" style="display: flex; justify-content: space-between;">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block conteudo_main %}
+        {% endblock %}
+    </main>
+    
 
     {% block scripts %}
     {% endblock %}

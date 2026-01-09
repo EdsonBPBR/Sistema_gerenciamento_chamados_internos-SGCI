@@ -6,103 +6,101 @@
 {% endblock %}
 
 {% block conteudo_main %}
-<main>
-    <section>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-4 coluna_grafico">
-                    <div>
-                        <canvas style="height: 100px;" id="grafico_pizza"></canvas>
-                    </div>
-                    <script>
-                        const GRAFICO_PIZZA_LABELS = {{ labels | tojson }};
-                        const GRAFICO_PIZZA_VALORES = {{ valores | tojson }};
-                    </script>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4 coluna_grafico">
+                <div>
+                    <canvas style="height: 100px;" id="grafico_pizza"></canvas>
                 </div>
+                <script>
+                    const GRAFICO_PIZZA_LABELS = {{ labels | tojson }};
+                    const GRAFICO_PIZZA_VALORES = {{ valores | tojson }};
+                </script>
+            </div>
 
-                <!-- tabela últimos registros carregada -->
-                <div class="col-8">
-                    <div class="info_tabela">
-                        <span class="badge text-bg-secondary">Últimos Chamados Abertos</span>
+            <!-- tabela últimos registros carregada -->
+            <div class="col-8">
+                <div class="info_tabela">
+                    <span class="badge text-bg-secondary">Últimos Chamados Abertos</span>
 
-                        <button type="button" class="btn btn-sm btn-outline-primary position-relative"
-                            data-url="{{ url_for('gerenciar_chamados') }}"
-                            onclick="window.location.href=this.getAttribute('data-url')">
-                            Chamados
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                {{ chamados_abertos['chamados']|length }}
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="tabela_wrapper">
-                        <table
-                            class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">Solicitante</th>
-                                    <th scope="col">Serviço</th>
-                                    <th scope="col">Setor</th>
-                                    <th scope="col">Prioridade</th>
-                                    <th scope="col">Data e Hora</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-abertos" class="table-group-divider">
-                                <!--id = "tabela-abertos", possibilita a atualização automática-->
-                                {% for chamado in chamados_abertos.values() %}
-                                {% if chamado['status'] == 'Aberto' %}
-                                <tr>
-                                    <th scope="row">{{ chamado['nome_solicitante'] }}</th>
-                                    <td>{{ chamado['tipo_servico'].title() }}</td>
-                                    <td>{{ chamado['setor'].title() }}</td>
-                                    <td><span class="badge  text-bg-{% if chamado['prioridade'] == 'alta' %}danger
-                                                                    {% elif chamado['prioridade'] == 'media' %}warning
-                                                                    {% else %}secondary
-                                                                    {% endif %}">{{ chamado['prioridade'].title()
-                                            }}</span></td>
-                                    <td>{{ chamado['data'] }} {{ chamado['horario'] }}</td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <!-- sistema de paginação -->
-                        <div class="paginacao">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <canvas id="goodCanvas1" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
+                    <button type="button" class="btn btn-sm btn-outline-primary position-relative"
+                        data-url="{{ url_for('gerenciar_chamados') }}"
+                        onclick="window.location.href=this.getAttribute('data-url')">
+                        Chamados
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ chamados_abertos['chamados']|length }}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
                 </div>
+                <div class="tabela_wrapper">
+                    <table
+                        class="table table-bordered table-hover shadow-sm p-3 mb-5 bg-body-tertiary rounded text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Solicitante</th>
+                                <th scope="col">Serviço</th>
+                                <th scope="col">Setor</th>
+                                <th scope="col">Prioridade</th>
+                                <th scope="col">Data e Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-abertos" class="table-group-divider">
+                            <!--id = "tabela-abertos", possibilita a atualização automática-->
+                            {% for chamado in chamados_abertos.values() %}
+                            {% if chamado['status'] == 'Aberto' %}
+                            <tr>
+                                <th scope="row">{{ chamado['nome_solicitante'] }}</th>
+                                <td>{{ chamado['tipo_servico'].title() }}</td>
+                                <td>{{ chamado['setor'].title() }}</td>
+                                <td><span class="badge  text-bg-{% if chamado['prioridade'] == 'alta' %}danger
+                                                                {% elif chamado['prioridade'] == 'media' %}warning
+                                                                {% else %}secondary
+                                                                {% endif %}">{{ chamado['prioridade'].title()
+                                        }}</span></td>
+                                <td>{{ chamado['data'] }} {{ chamado['horario'] }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- sistema de paginação -->
+                    <div class="paginacao">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <canvas id="goodCanvas1" width="400" height="100" aria-label="Hello ARIA World" role="img"></canvas>
             </div>
         </div>
-    </section>
-    <section class="graficos">
-        <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-            <canvas id="grafico_pizza"></canvas>
-        </div>
-        <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
-            <canvas id="grafico_pizza"></canvas>
-        </div>
-    </section>
-</main>
+    </div>
+</section>
+<section class="graficos">
+    <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+        <canvas id="grafico_pizza"></canvas>
+    </div>
+    <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+        <canvas id="grafico_pizza"></canvas>
+    </div>
+</section>
 {% endblock %}
 
 {% block scripts %}
