@@ -4,6 +4,7 @@ from utils.funcionalidades import inserir_chamados
 from models.models import extrair_dados, salvar_dados
 from utils.login import verifica_login
 from utils.filtro_chamados import pesquisa_por_solicitante, filtro_por_selecao
+from utils.graficos import grafico_pizza_inicio
 from apis import api_chamados, api_chamados_abertos
 
 @app.route('/', methods = ['GET'])
@@ -66,27 +67,22 @@ def login_admin():
 @app.route('/sgci/admin/inicio', methods = ['GET'])
 def inicio():
     """
-    Envia os chamados para o template, lá serão tratados com base na API
+    Página inicial do software, conecta com API de chamados aberto e geração de gráficos para o dashboard incial
     """
     if not('usuario' in session):
         flash('Conexão expirada! Faça o login!', 'danger')
         return redirect(url_for('login_admin'))
     
-    response, status = api_chamados_abertos()
-    chamados, status = api_chamados() # dados necessários para alimentar os gráficos
+    try:
+        response, status = api_chamados_abertos()
+        chamados, status = api_chamados() # dados necessários para alimentar os gráficos
+    except Exception as erro:
+        flash(f'Não foi possível carregar base de dados', 'danger')
     
     if status != 200:
         abort(status)
-
-    abertos = andamentos = fechados = 0
-    
-    for chamado in chamados['chamados']:
-        if chamado[1]['status'] == 'Aberto':
-            abertos += 1
-        elif chamado[1]['status'] == 'Em Andamento':
-            andamentos += 1
-        elif chamado[1]['status'] == 'Fechado':
-            fechados += 1
+        
+    abertos, andamentos, fechados = grafico_pizza_inicio(chamados)
     
     return render_template('inicio.html',
                            chamados_abertos = response,
@@ -124,16 +120,22 @@ def dashboard():
 @app.route('/sgci/admin/chamados', methods=['GET', 'POST'])
 def gerenciar_chamados():
     """
-    Retorna uma lista dos chamados cadastrados, situação e informações relevantes
+    Retorna dados de todos os chamados cadastrados, filtros e exportações em xlsx 
     """
     if not('usuario' in session):
-        abort(400)
-    response, status = api_chamados()
-    instancias = response['chamados']
+        abort(401)
     
+    try:
+        response, status = api_chamados()
+    except Exception as erro:
+        flash('Não foi possível carregar dados', 'danger')
+        instancias = []
+
     if status != 200:
         abort(status)
         
+    instancias = response['chamados']    
+    
     if request.method == 'POST':
         acao = request.form.get('acao')
 
@@ -150,8 +152,6 @@ def gerenciar_chamados():
                     
         elif acao == 'limpar_filtro':
             instancias = response['chamados']
-            
-            
     return render_template('chamados.html', chamados=instancias)
 
 @app.route('/sgci/admin/chamado/<string:id>', methods = ['GET', 'POST'])
@@ -162,9 +162,13 @@ def detalhar_chamado(id):
     :param id: Recebe como parâmetro o ID do chamado
     """
     if not('usuario' in session):
-        abort(400)
-        
-    dados = extrair_dados('registro_chamados')    
+        abort(401)
+    
+    try:
+        dados = extrair_dados('registro_chamados')    
+    except Exception as erro:
+        flash('Não foi possível carregar dados do chamado!', 'danger')
+        return redirect(url_for('gerenciar_chamados'))
     
     if request.method == 'POST':
         acao = request.form.get('acao')
@@ -180,22 +184,43 @@ def detalhar_chamado(id):
         elif acao == 'excluir_chamado':
             del dados[f'{id}']
             
-            salvar_dados(dados, 'registro_chamados')
+            try:
+                salvar_dados(dados, 'registro_chamados')
+            except Exception as erro:
+                flash(f'Não foi possível excluir chamado: {erro}', 'danger')
             
             flash('Chamado excluído com sucesso!', 'success')
             return redirect(url_for('gerenciar_chamados'))
         
-        
-        salvar_dados(dados, 'registro_chamados')
+        try:
+            salvar_dados(dados, 'registro_chamados')
+        except Exception as erro:
+            flash(f'Não foi possível excluir chamado: {erro}', 'danger')
     return render_template('detalhar_chamado.html', chamado = dados[f'{id}'])
 
-@app.route('/sgci/admin/chamado/atender_chamado/<string:id>', methods = ['GET', 'POST'])
+@app.route('/sgci/admin/chamado/atender_chamado/<string:id>', methods = ['GET'])
 def atender_chamado(id):
+    """
+    Responsável por alterar o status do chamado pelo template: gerenciar_chamados
     
-    dados = extrair_dados('registro_chamados') 
+    :param id: PK do chamado
+    """
+    if not('usuario' in session):
+        abort(401)
+    
+    try:
+        dados = extrair_dados('registro_chamados') 
+    except Exception as erro:
+        flash(f'Não foi possível carregar dados: {erro}', 'danger')
+        return redirect(url_for('gerenciar_chamados'))
+
     dados[f'{id}']['status'] = 'Em Andamento'
-    salvar_dados(dados, 'registro_chamados')
+    
+    try:
+        salvar_dados(dados, 'registro_chamados') 
+    except Exception as erro:
+        flash(f'Não foi possível salvar status do chamado: {erro}', 'danger')
+        return redirect(url_for('gerenciar_chamados'))
     
     flash(f'Status do chamado de {dados[f'{id}']['nome_solicitante']} alterado: Em Andamento!', 'info')
-    
     return redirect(url_for('gerenciar_chamados'))
