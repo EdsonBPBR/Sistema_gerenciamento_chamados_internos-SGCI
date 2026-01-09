@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block conteudo_main %}
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -30,7 +29,7 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Voltar</a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('gerenciar_chamados') }}">Chamados</a></li>
         <li class="breadcrumb-item active" aria-current="page">Chamado</li>
     </ol>
@@ -81,18 +80,33 @@
         </div>
         <div class="campo_botoes">
             <form method="post">
-                <button type="submit" class="btn btn-outline-primary" name="acao" value="atender_chamado" {% if
-                    (chamado['status']=='Em Andamento' or chamado['status']=='Fechado' ) %} disabled {% endif %}>
+                <button 
+                    type="submit" 
+                    class="btn btn-outline-primary" 
+                    name="acao" 
+                    value="atender_chamado" 
+                    {% if (chamado['status']=='Em Andamento' 
+                            or chamado['status']=='Fechado' ) %} disabled {% endif %}>
                     <i class="bi bi-headset"></i> Atender
                 </button>
 
-                <button type="submit" class="btn btn-outline-success" name="acao" value="fechar_chamado" {% if
-                    chamado['status']=='Aberto' or chamado['status']=='Fechado' %} disabled {% endif %}>
-                    <i class="bi bi-check-all"></i> Fechar Chamado
-                </button> <!--se 'aberto' ou 'fechado', desativar. Deixar -->
+                <button 
+                    type="submit" 
+                    class="btn btn-outline-success" 
+                    name="acao" 
+                    value="fechar_chamado" 
+                    {% if (chamado['status']=='Aberto' 
+                            or chamado['status']=='Fechado') %} disabled {% endif %}>
+                        <i class="bi bi-check-all"></i> Fechar Chamado
+                </button>
 
-                <button type="button" class="btn btn-outline-secondary" name="acao" value="editar_chamado"><i
-                        class="bi bi-pencil"></i> Editar
+                <button 
+                    type="button" 
+                    class="btn btn-outline-secondary" 
+                    name="acao" 
+                    data-url="{{ url_for('editar_chamado', id=id_chamado) }}"
+                    onclick="window.location.href=this.getAttribute('data-url')"
+                    value="editar_chamado"><i class="bi bi-pencil"></i> Editar
                 </button>
 
                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i

@@ -1,0 +1,48 @@
+main {
+    margin: auto;
+    width: 95%;
+}
+
+main>section>form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.campo_botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+input, textarea {
+    font-weight: bold !important;
+}
+
+textarea {
+    max-height: 18rem;
+    height: 8rem;
+}
+.card_wrapper {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.card_wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;        
+    height: 100%;
+    background-color: #04436F;
+    border-radius: 14px 0 0 14px;
+    z-index: 2;
+}
+
+select {
+    font-weight: bold !important;
+}

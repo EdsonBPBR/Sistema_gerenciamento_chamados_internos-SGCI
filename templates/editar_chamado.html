@@ -1,0 +1,127 @@
+{% extends '_layouts/base.html' %}
+
+{% block head %}
+<title>Editar Chamado</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_editar_chamado.css') }}">
+{% endblock %}
+
+{% block conteudo_main %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('detalhar_chamado', id = id_chamado) }}">Voltar</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Chamado</li>
+    </ol>
+</nav>
+<section class="card_wrapper shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+    <form method="post">
+        <div>
+            <div class="mb-3">
+                <label class="form-label" for="nome_solicitante"><i class="bi bi-people"></i> Nome Solicitante</label>
+                <input 
+                    name="nome_solicitante" 
+                    type="text" id="nome_solicitante" class="form-control"
+                    value="{{ chamado['nome_solicitante'] }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="setor"><i class="bi bi-building"></i> Setor</label>
+                <input 
+                    name="setor" 
+                    type="text" 
+                    id="setor" 
+                    class="form-control" 
+                    value="{{ chamado['setor'] }}" 
+                    required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="tipo_servico"><i class="bi bi-gear"></i> Tipo Serviço</label>
+                <select 
+                    name="tipo_servico" 
+                    id="tipo_servico"
+                    class="form-select" 
+                    required>
+                    <option value="suporte" 
+                    {% if chamado['tipo_servico'] == 'suporte' %} selected {% endif %}>Suporte Técnico</option>
+                    <option value="manutencao" 
+                    {% if chamado['tipo_servico'] == 'manutencao' %} selected {% endif %}>Manutenção de Ativos</option>
+                    <option value="redes_e_infraestrutura" 
+                    {% if chamado['tipo_servico'] == 'redes_e_infraestrutura' %} selected {% endif %}>Redes e Infraestrutura</option>
+                    <option value="desenvolvimento" 
+                    {% if chamado['tipo_servico'] == 'desenvolvimento' %} selected {% endif %}>Desenvolvimento</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="localizacao"><i class="bi bi-geo-alt"></i> Localização</label>
+                <input 
+                    name="localizacao" 
+                    type="text" 
+                    id="localizacao" 
+                    class="form-control"
+                    value="{{ chamado['localizacao'].title() }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="data_e_hora"><i class="bi bi-calendar-day"></i> Data e Hora</label>
+                <input 
+                    name="data" 
+                    type="text" 
+                    id="data_e_hora" 
+                    class="form-control"
+                    value="{{ chamado['data'].title() }} | {{ chamado['horario'].title() }}" 
+                    readonly 
+                    disabled>
+            </div>
+        </div>
+        <div>
+            <div class="mb-3">
+                <label class="form-label" for="descricao"><i class="bi bi-card-text"></i> Descrição</label>
+                <textarea 
+                    name="descricao" 
+                    class="form-control" 
+                    id="descricao"
+                    required>{{ chamado['descricao'] }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="status"><i class="bi bi-hourglass"></i> Status</label>
+                <select 
+                    name="status" 
+                    class="form-select" 
+                    id="status" 
+                    required>
+                    <option value="Aberto" 
+                    {% if chamado['status'] == 'Aberto' %} selected {% endif %}> Aberto </option>
+                    <option value="Em Andamento" 
+                    {% if chamado['status'] == 'Em Andamento' %} selected {% endif %}> Em Andamento</option>
+                    <option value="Fechado" 
+                    {% if chamado['status'] == 'Fechado' %} selected {% endif %}> Fechado</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="prioridade"><i class="bi bi-exclamation-diamond"></i> Prioridade</label>
+                <select 
+                    name="prioridade" 
+                    id="prioridade"
+                    class="form-select" 
+                    required>
+                    <option value="baixa" {% if chamado['prioridade'] == 'baixa' %} selected {% endif %}>Baixa</option>
+                    <option value="media" {% if chamado['prioridade'] == 'media' %} selected {% endif %} >Média</option>
+                    <option value="alta" {% if chamado['prioridade'] == 'alta' %} selected {% endif %} >Alta</option>
+                </select>
+            </div>
+            <div class="campo_botoes">
+                <button 
+                    type="submit" 
+                    class="btn btn-outline-success" >
+                    <i class="bi bi-floppy"></i> Salvar
+                </button>
+
+                <button 
+                    type="button"
+                    data-url="{{ url_for('detalhar_chamado', id = id_chamado) }}"
+                    onclick="window.location.href=this.getAttribute('data-url')"
+                    class="btn btn-outline-danger"><i class="bi bi-x-lg"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}

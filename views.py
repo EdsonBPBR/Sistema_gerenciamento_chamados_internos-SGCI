@@ -196,8 +196,45 @@ def detalhar_chamado(id):
             salvar_dados(dados, 'registro_chamados')
         except Exception as erro:
             flash(f'Não foi possível excluir chamado: {erro}', 'danger')
-    return render_template('detalhar_chamado.html', chamado = dados[f'{id}'])
+    return render_template('detalhar_chamado.html', chamado = dados[f'{id}'], id_chamado = id)
 
+@app.route('/sgci/admin/chamado/editar_chamado/<string:id>', methods = ['GET', 'POST'])
+def editar_chamado(id):
+    if not('usuario' in session):
+        abort(401)
+        
+    try:
+        dados = extrair_dados('registro_chamados')    
+    except Exception as erro:
+        flash(f'Não foi possível carregar dados do chamado: {erro}', 'danger')
+        return redirect(url_for('gerenciar_chamados'))
+    
+    if request.method == 'POST':
+        nome_solicitante = request.form.get('nome_solicitante')
+        setor = request.form.get('setor')
+        tipo_servico = request.form.get('tipo_servico')
+        localizacao = request.form.get('localizacao')
+        descricao = request.form.get('descricao')
+        status = request.form.get('status')
+        prioridade = request.form.get('prioridade')
+        
+        dados[f'{id}']['nome_solicitante'] = nome_solicitante
+        dados[f'{id}']['setor'] = setor
+        dados[f'{id}']['tipo_servico'] = tipo_servico
+        dados[f'{id}']['localizacao'] = localizacao
+        dados[f'{id}']['descricao'] = descricao
+        dados[f'{id}']['status'] = status
+        dados[f'{id}']['prioridade'] = prioridade
+        
+        try:
+            salvar_dados(dados, 'registro_chamados')
+            flash('Chamado editado com sucesso!', 'success')
+        except Exception as erro:
+            flash(f'Não foi possível editar o chamado: {erro}', 'danger')
+            
+        return redirect(url_for('detalhar_chamado', id=f'{id}'))
+    return render_template('editar_chamado.html', chamado = dados[f'{id}'], id_chamado = id)
+        
 @app.route('/sgci/admin/chamado/atender_chamado/<string:id>', methods = ['GET'])
 def atender_chamado(id):
     """

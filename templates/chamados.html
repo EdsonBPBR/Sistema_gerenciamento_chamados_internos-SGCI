@@ -172,7 +172,7 @@
                         title="Atender chamado"
                         data-url="{{ url_for('atender_chamado', id=chamado[0]) }}"
                         onclick="window.location.href=this.getAttribute('data-url')"
-                        {% if chamado[1]['status'] == 'Em Andamento' %} disabled {% endif %}
+                        {% if chamado[1]['status'] == 'Em Andamento' or chamado[1]['status'] == 'Fechado' %} disabled {% endif %}
                         >
                         <i class="bi bi-headset"></i>
                     </button>
