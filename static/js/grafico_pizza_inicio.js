@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 label: 'Chamados',
                 data: GRAFICO_PIZZA_VALORES,
-                borderWidth: 1
+                borderWidth: 1,
+                backgroundColor: [
+                    '#e27b91ff',
+                    '#04436F',
+                    '#71E397'
+                ]
             }]
         },
         options: {

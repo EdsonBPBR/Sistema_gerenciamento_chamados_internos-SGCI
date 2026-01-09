@@ -11,3 +11,8 @@
 footer {
     text-align: center;
 }
+
+main {
+    width: 95%;
+    margin: auto;
+}

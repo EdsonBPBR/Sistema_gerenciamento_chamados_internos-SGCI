@@ -25,3 +25,20 @@ textarea {
     max-height: 18rem;
     height: 8rem;
 }
+.card_wrapper {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.card_wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;        
+    height: 100%;
+    background-color: #04436F;
+    border-radius: 14px 0 0 14px;
+    z-index: 2;
+}

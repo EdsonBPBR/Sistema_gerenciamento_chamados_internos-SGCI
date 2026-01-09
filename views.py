@@ -1,7 +1,7 @@
 from app_web import app
 from flask import render_template, request, redirect, url_for, flash, session, abort
 from utils.funcionalidades import inserir_chamados
-from models.models import extrair_dados
+from models.models import extrair_dados, salvar_dados
 from utils.login import verifica_login
 from utils.filtro_chamados import pesquisa_por_solicitante, filtro_por_selecao
 from apis import api_chamados, api_chamados_abertos
@@ -154,15 +154,48 @@ def gerenciar_chamados():
             
     return render_template('chamados.html', chamados=instancias)
 
-@app.route('/sgci/admin/chamado/<string:id>', methods = ['GET'])
+@app.route('/sgci/admin/chamado/<string:id>', methods = ['GET', 'POST'])
 def detalhar_chamado(id):
     """
-    Docstring for detalhar_chamado
+    Retorna informações específicas de um chamado respectivamente selecionado
     
     :param id: Recebe como parâmetro o ID do chamado
     """
     if not('usuario' in session):
         abort(400)
+        
+    dados = extrair_dados('registro_chamados')    
     
-    dados = extrair_dados('registro_chamados')
+    if request.method == 'POST':
+        acao = request.form.get('acao')
+        
+        if acao == 'atender_chamado':
+            dados[f'{id}']['status'] = 'Em Andamento'
+            flash('Status chamado alterado: Em Andamento!', 'info')
+
+        elif acao == 'fechar_chamado':
+            dados[f'{id}']['status'] = 'Fechado' 
+            flash('Chamado encerrado com sucesso!', 'success')   
+
+        elif acao == 'excluir_chamado':
+            del dados[f'{id}']
+            
+            salvar_dados(dados, 'registro_chamados')
+            
+            flash('Chamado excluído com sucesso!', 'success')
+            return redirect(url_for('gerenciar_chamados'))
+        
+        
+        salvar_dados(dados, 'registro_chamados')
     return render_template('detalhar_chamado.html', chamado = dados[f'{id}'])
+
+@app.route('/sgci/admin/chamado/atender_chamado/<string:id>', methods = ['GET', 'POST'])
+def atender_chamado(id):
+    
+    dados = extrair_dados('registro_chamados') 
+    dados[f'{id}']['status'] = 'Em Andamento'
+    salvar_dados(dados, 'registro_chamados')
+    
+    flash(f'Status do chamado de {dados[f'{id}']['nome_solicitante']} alterado: Em Andamento!', 'info')
+    
+    return redirect(url_for('gerenciar_chamados'))
